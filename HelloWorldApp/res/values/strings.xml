@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">HelloGoodbye</string>
+    <string name="hello">Hello 21W.789!</string>
+    <string name="goodbye">Goodbye 21W.789!</string>
+</resources>
