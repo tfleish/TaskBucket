@@ -13,7 +13,7 @@ public class goodbyeworld extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.goodbye);
         
-        // Add a Button
+        // Add a Buttons
     	
         Button goodbyeButton = (Button)findViewById(R.id.goodbye_button);
         goodbyeButton.setOnClickListener(new View.OnClickListener() {
