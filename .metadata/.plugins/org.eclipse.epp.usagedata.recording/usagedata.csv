@@ -1,76 +1,51 @@
 what,kind,bundleId,bundleVersion,description,time
-started,bundle,com.aptana.ide.debug.ui,2.0.0.1254164293,"com.aptana.ide.debug.ui",1298430025789
-started,bundle,com.aptana.ide.desktop.integration.protocolhandler,2.0.0.1278523018,"com.aptana.ide.desktop.integration.protocolhandler",1298430025789
-started,bundle,com.aptana.ide.desktop.integration.server,2.0.0.1278523018,"com.aptana.ide.desktop.integration.server",1298430025789
-started,bundle,com.aptana.ide.documentation,2.0.0.1278523018,"com.aptana.ide.documentation",1298430025790
-started,bundle,com.aptana.ide.editors,2.0.5.1278523018,"com.aptana.ide.editors",1298430025790
-started,bundle,com.aptana.ide.epl,2.0.0.1278523018,"com.aptana.ide.epl",1298430025790
-started,bundle,com.aptana.ide.installer,2.0.5.1278523018,"com.aptana.ide.installer",1298430025790
-started,bundle,com.aptana.ide.intro,2.0.0.1278523018,"com.aptana.ide.intro",1298430025790
-started,bundle,com.aptana.ide.samples.ui,2.0.0.1278614541,"com.aptana.ide.samples.ui",1298430025790
-started,bundle,com.aptana.ide.scripting,2.0.0.1278523018,"com.aptana.ide.scripting",1298430025790
-started,bundle,com.aptana.ide.server,2.0.0.1278523018,"com.aptana.ide.server",1298430025790
-started,bundle,com.aptana.ide.server.jetty,2.0.0.1278523018,"com.aptana.ide.server.jetty",1298430025790
-started,bundle,com.aptana.ide.server.portal,2.0.0.1278523018,"com.aptana.ide.server.portal",1298430025790
-started,bundle,com.aptana.ide.update,2.0.5.1278523018,"com.aptana.ide.update",1298430025790
-started,bundle,com.aptana.ide.update.eclipse34,2.0.5.1278614541,"com.aptana.ide.update.eclipse34",1298430025790
-started,bundle,com.aptana.ide.update.eclipse35,2.0.5.1278614541,"com.aptana.ide.update.eclipse35",1298430025790
-started,bundle,com.aptana.ide.update.portal,2.0.0.1278614541,"com.aptana.ide.update.portal",1298430025790
-started,bundle,com.aptana.ide.update.ui,2.0.0.1278614541,"com.aptana.ide.update.ui",1298430025790
-started,bundle,org.eclipse.eclipsemonkey,2.0.5.1278445773,"org.eclipse.eclipsemonkey",1298430025790
-started,bundle,org.eclipse.eclipsemonkey.doms,2.0.0.1277749615,"org.eclipse.eclipsemonkey.doms",1298430025790
-started,bundle,org.eclipse.eclipsemonkey.lang.javascript,2.0.0.1277749615,"org.eclipse.eclipsemonkey.lang.javascript",1298430025790
-started,bundle,org.eclipse.epp.usagedata.gathering,1.1.1.R201001291118,"org.eclipse.epp.usagedata.gathering",1298430025790
-started,bundle,org.eclipse.epp.usagedata.recording,1.1.1.R201001291118,"org.eclipse.epp.usagedata.recording",1298430025790
-started,bundle,org.eclipse.jdt.core,3.5.2.v_981_R35x,"org.eclipse.jdt.core",1298430025790
-started,bundle,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui",1298430025790
-started,bundle,org.eclipse.mylyn.bugzilla.core,3.4.2.v20100902-0100-e3x,"org.eclipse.mylyn.bugzilla.core",1298430025790
-started,bundle,org.eclipse.mylyn.bugzilla.ui,3.4.2.v20100909-0100-e3x,"org.eclipse.mylyn.bugzilla.ui",1298430025790
-started,bundle,org.eclipse.mylyn.commons.net,3.4.1.v20100625-2100-e3x,"org.eclipse.mylyn.commons.net",1298430025790
-started,bundle,org.eclipse.mylyn.commons.ui,3.4.0.v20100608-0100-e3x,"org.eclipse.mylyn.commons.ui",1298430025791
-started,bundle,org.eclipse.mylyn.context.core,3.4.1.v20100909-0100-e3x,"org.eclipse.mylyn.context.core",1298430025791
-started,bundle,org.eclipse.mylyn.context.ui,3.4.1.v20100909-0100-e3x,"org.eclipse.mylyn.context.ui",1298430025791
-started,bundle,org.eclipse.mylyn.monitor.ui,3.4.0.v20100608-0100-e3x,"org.eclipse.mylyn.monitor.ui",1298430025791
-started,bundle,org.eclipse.mylyn.tasks.ui,3.4.2.v20100902-0100-e3x,"org.eclipse.mylyn.tasks.ui",1298430025791
-started,bundle,org.eclipse.mylyn.team.ui,3.4.2.v20100909-0100-e3x,"org.eclipse.mylyn.team.ui",1298430025791
-started,bundle,org.eclipse.team.cvs.ui,3.3.202.r35x_20090930-0800,"org.eclipse.team.cvs.ui",1298430025791
-os,sysinfo,,,"macosx",1298430025793
-arch,sysinfo,,,"x86",1298430025793
-ws,sysinfo,,,"cocoa",1298430025793
-locale,sysinfo,,,"en_US",1298430025793
-processors,sysinfo,,,"2",1298430025793
-java.runtime.name,sysinfo,,,"Java(TM) SE Runtime Environment",1298430025793
-java.runtime.version,sysinfo,,,"1.6.0_17-b04-248-10M3025",1298430025793
-java.specification.name,sysinfo,,,"Java Platform API Specification",1298430025793
-java.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1298430025793
-java.specification.version,sysinfo,,,"1.6",1298430025793
-java.vendor,sysinfo,,,"Apple Inc.",1298430025793
-java.version,sysinfo,,,"1.6.0_17",1298430025794
-java.vm.info,sysinfo,,,"mixed mode",1298430025794
-java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1298430025794
-java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1298430025794
-java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1298430025794
-java.vm.specification.version,sysinfo,,,"1.0",1298430025794
-java.vm.vendor,sysinfo,,,"Apple Inc.",1298430025794
-java.vm.version,sysinfo,,,"14.3-b01-101",1298430025794
-started,bundle,com.aptana.ide.server.core,2.0.0.1278523018,"com.aptana.ide.server.core",1298430025845
-activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298430027587
-started,bundle,org.eclipse.ui.navigator,3.4.1.M20090911-1550,"org.eclipse.ui.navigator",1298430027604
-activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298430027619
-closed,view,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.internal.introview",1298430027632
-deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430046540
-started,bundle,org.eclipse.jgit,0.11.3,"org.eclipse.jgit",1298430051677
-started,bundle,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui",1298430051699
-started,bundle,org.eclipse.compare,3.5.0.I20090514-0808,"org.eclipse.compare",1298430056963
-activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430056972
-executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.newWizard",1298430057008
-started,bundle,org.eclipse.egit.core,0.11.3,"org.eclipse.egit.core",1298430061841
-deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430081441
-activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430178917
-executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.newWizard",1298430178946
-deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430184111
-activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430216321
-executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.newWizard",1298430216346
-deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430217744
-activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430301405
-deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298430303893
+executed,command,org.eclipse.debug.ui,3.5.1.v20090811_r351,"org.eclipse.debug.ui.DebugPerspective",1298511268368
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298511291899
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298511291900
+activated,perspective,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.GitRepositoryExploring",1298511291900
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298511294038
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298511294082
+activated,perspective,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.JavaPerspective",1298511294082
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298511307661
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511324806
+closed,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298511327404
+closed,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298511327458
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511327608
+executed,command,org.eclipse.ltk.ui.refactoring,3.4.100.v20090604,"org.eclipse.ltk.ui.refactoring.commands.deleteResources",1298511327641
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.delete",1298511327642
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511331768
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511377290
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.import",1298511377381
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.import",1298511377382
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511382295
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511384433
+executed,command,org.eclipse.ltk.ui.refactoring,3.4.100.v20090604,"org.eclipse.ltk.ui.refactoring.commands.deleteResources",1298511384463
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.delete",1298511384464
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511387683
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511389759
+executed,command,org.eclipse.ltk.ui.refactoring,3.4.100.v20090604,"org.eclipse.ltk.ui.refactoring.commands.deleteResources",1298511389790
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.delete",1298511389790
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511401690
+error,log,,,"Failed to load properties file for project 'P0'",1298511513516
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511513701
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.newWizard",1298511513745
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298511520450
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298511520451
+activated,perspective,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.GitRepositoryExploring",1298511520451
+activated,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.DefaultTextEditor",1298511520472
+activated,view,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesView",1298511524297
+no handler,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.refresh",1298511530172
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511538579
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511552339
+no handler,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.refresh",1298511559768
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511583636
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511634224
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511692852
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511695598
+executed,command,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesViewDelete",1298511695634
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511695663
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511699207
+started,bundle,org.eclipse.ui.externaltools,3.2.0.v20090504,"org.eclipse.ui.externaltools",1298511743381
+executed,command,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesViewRefresh",1298511752217
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511864290
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298511895522

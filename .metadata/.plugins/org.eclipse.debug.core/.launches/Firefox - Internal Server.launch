@@ -2,6 +2,7 @@
 <launchConfiguration type="com.aptana.ide.debug.core.jsLaunchConfigurationType">
 <booleanAttribute key="advancedRunEnabled" value="false"/>
 <booleanAttribute key="appendProjectName" value="false"/>
+<stringAttribute key="browserCmdLine" value=""/>
 <stringAttribute key="browserExecutable" value="/Applications/Firefox.app"/>
 <stringAttribute key="browserNature" value="Firefox"/>
 <stringAttribute key="externalBaseUrl" value=""/>
@@ -9,6 +10,7 @@
 <stringAttribute key="httpPostContentType" value=""/>
 <stringAttribute key="httpPostData" value=""/>
 <booleanAttribute key="overrideDebugPreferences" value="false"/>
+<stringAttribute key="pathsMapping" value=""/>
 <intAttribute key="serverType" value="1"/>
 <intAttribute key="startActionType" value="1"/>
 <stringAttribute key="startPagePath" value=""/>

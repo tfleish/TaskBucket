@@ -1,0 +1,6 @@
+INDEX VERSION 1.126+/Users/Tamara/Dropbox/Documents/MIT/21W.789/BucketLST/.metadata/.plugins/org.eclipse.jdt.core
+1345500471.index
+2206672988.index
+3327677137.index
+2380807551.index
+3777529828.index
