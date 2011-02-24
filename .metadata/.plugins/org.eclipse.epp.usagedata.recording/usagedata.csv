@@ -124,3 +124,103 @@ closed,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.Defaul
 activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512434329
 opened,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512447378
 error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512447380
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512447381
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512447459
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512449403
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512452827
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512452926
+closed,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512452927
+opened,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.TypeHierarchy",1298512455326
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.TypeHierarchy",1298512455342
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512457278
+opened,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512473660
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512473662
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512473712
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512473768
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298512482705
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512576760
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298512576885
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298512582047
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298512586417
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512586546
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512588548
+closed,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512588549
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512590252
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512590303
+activated,perspective,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.GitRepositoryExploring",1298512590303
+activated,view,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesView",1298512590316
+opened,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.DefaultTextEditor",1298512599760
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512599763
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512599763
+activated,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.DefaultTextEditor",1298512599786
+executed,command,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesViewOpen",1298512599817
+activated,view,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesView",1298512602328
+closed,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.DefaultTextEditor",1298512602339
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512613085
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512613121
+activated,perspective,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.JavaPerspective",1298512613121
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512613159
+opened,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512615256
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512615257
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512615305
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512615361
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1298512619129
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512622129
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512622130
+activated,perspective,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.GitRepositoryExploring",1298512622130
+activated,view,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesView",1298512624510
+closed,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512624519
+opened,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.DefaultTextEditor",1298512630421
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512630424
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512630477
+activated,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.DefaultTextEditor",1298512630496
+executed,command,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesViewOpen",1298512630529
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512636503
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512636503
+activated,perspective,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.JavaPerspective",1298512636504
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1298512658460
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512662567
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512662568
+activated,perspective,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.GitRepositoryExploring",1298512662568
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1298512667085
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512668652
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512668696
+activated,perspective,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.JavaPerspective",1298512668696
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298512671538
+closed,editor,org.eclipse.ui.editors,3.5.0.v20090527-2000,"org.eclipse.ui.DefaultTextEditor",1298512671539
+opened,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512673142
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512673144
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298512673153
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298512673195
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298512722666
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513048153
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298513054690
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298513065756
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.file.save",1298513073652
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298513075260
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298513075261
+activated,perspective,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.GitRepositoryExploring",1298513075261
+activated,view,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesView",1298513082364
+executed,command,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesViewPushConfigured",1298513085707
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513086019
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513089188
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513098045
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513121758
+executed,command,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.RepositoriesViewPush",1298513121823
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513122152
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513133361
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513137005
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513187912
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298513191943
+error,log,,,"(Build 2.0.5.1278523018) [ERROR] Unable to connect to database",1298513191944
+activated,perspective,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.JavaPerspective",1298513191944
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298513191959
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298513193716
+error,log,,,"No property tester contributes a property com.aptana.ide.core.ui.nature to type class org.eclipse.jdt.internal.core.JavaProject",1298513194747
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513217325
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1298513230634
+activated,editor,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1298513230697
+activated,view,org.eclipse.jdt.ui,3.5.2.r352_v20100106-0800,"org.eclipse.jdt.ui.PackageExplorer",1298513242474
+error,log,,,"No property tester contributes a property com.aptana.ide.core.ui.nature to type class org.eclipse.jdt.internal.core.JavaProject",1298513244176
+executed,command,org.eclipse.egit.ui,0.11.3,"org.eclipse.egit.ui.team.AddToIndex",1298513260387
+error,log,,,"No property tester contributes a property com.aptana.ide.core.ui.nature to type class org.eclipse.jdt.internal.core.JavaProject",1298513263692
