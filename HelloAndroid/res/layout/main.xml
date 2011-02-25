@@ -3,9 +3,38 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/window"
     >
+<TextView  
+	android:id="@+id/helloClass"
+	android:gravity="center"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/hello"
+	android:textStyle="bold"
+	android:textSize="20px"
+	android:textColor="#FFFFFFFF"
+/>
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/hello"/>
+    android:text="@string/prompt"
+/>
+<EditText  
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
+	android:id="@+id/helloName"
+/>
+<Button
+	android:id="@+id/go"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
+	android:text="@string/press"
+/>
+<Button
+	android:id="@+id/toggle"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
+	android:text="@string/change"
+/>
 </LinearLayout>

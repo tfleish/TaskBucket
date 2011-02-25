@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello Android, Hello 21w789!</string>
+    <string name="prompt">Enter Your Text Here:</string>
     <string name="app_name">Hello 21w789</string>
+    <string name="press">Press Me!</string>
+    <string name="change">Sleep</string>
+    <string name="hello">Hello 21w789</string>
 </resources>
