@@ -4,7 +4,7 @@ package com.hag.bucketlst;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class BucketLST extends Activity {
+public class BucketMain extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
