@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, BucketLST!</string>
+    
     <string name="app_name">BucketLST</string>
+    <string name="hello">Hello BucketLST</string><string name="title">Task</string><string name="category">Category</string><string name="add">Add Task</string>
+    
+    
 </resources>

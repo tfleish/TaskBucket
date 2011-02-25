@@ -61,7 +61,7 @@ public class LDBAdapter {
             Log.w(TAG, "Upgrading database from version " + oldVersion 
                   + " to "
                   + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS tblCategories");
+            db.execSQL("DROP TABLE IF EXISTS tblList");
             onCreate(db);
         }
     }
