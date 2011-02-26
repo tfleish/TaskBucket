@@ -150,7 +150,7 @@ public class LDBAdapter {
     public int getAllCount() 
     {
         Cursor cursor = db.rawQuery(
-                    "SELECT COUNT(Category) FROM tblCategories", null);
+                    "SELECT COUNT(Title) FROM tblList", null);
                 if(cursor.moveToFirst()) {
                     return cursor.getInt(0);
                 }
