@@ -90,7 +90,7 @@ public class CDBAdapter {
     public Cursor getAllCategory() {
 
         return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_CATEGORY}
-        				, null, null, null, null, null);
+        				, null, null, null, null, KEY_CATEGORY);
     }
     
     /**
@@ -138,13 +138,13 @@ public class CDBAdapter {
      * @return how many stuff is in the table
      */
     public int getAllEntriesCount() 
-    {
+    {	
+    	//return 1;
         Cursor cursor = db.rawQuery(
                     "SELECT COUNT(Category) FROM tblCategories", null);
                 if(cursor.moveToFirst()) {
                     return cursor.getInt(0);
                 }
                 return cursor.getInt(0);
-
     }
 }

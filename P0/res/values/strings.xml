@@ -2,7 +2,10 @@
 <resources>
     
     <string name="app_name">BucketLST</string>
-    <string name="hello">Hello BucketLST</string><string name="title">Task</string><string name="category">Category</string><string name="add">Add Task</string>
+    <string name="hello">Hello BucketLST</string>
+    <string name="title">Task</string>
+    <string name="category">Category</string>
+    <string name="add">Add Task</string>
     
     
 </resources>

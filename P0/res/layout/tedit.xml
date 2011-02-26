@@ -8,21 +8,29 @@
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/title"
+    android:padding="5dip"
+	android:textStyle="bold"
+	android:textSize="12px"
 />
 <EditText  
 	android:layout_width="fill_parent" 
 	android:layout_height="wrap_content" 
 	android:id="@+id/titleGet"
+	android:paddingBottom="5dip"
 />
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/category"
+	android:padding="5dip"
+	android:textStyle="bold"
+	android:textSize="12px"
 />
 <Spinner 
 	android:layout_height="wrap_content" 
 	android:layout_width="fill_parent"
 	android:id="@+id/categoryGet"
+    android:textColor="#000"
 />
 <Button
 	android:id="@+id/add"

@@ -27,8 +27,8 @@ public class LDBAdapter {
         "create table " + DATABASE_TABLE + "(" + 
         KEY_ROWID + " integer primary key autoincrement, " + 
         KEY_TITLE + " text not null, " + 
-        KEY_CATID + " text not null, " + 
-        KEY_COMPLETED + " text not null );";
+        KEY_CATID + " integer not null, " + 
+        KEY_COMPLETED + " boolean not null );";
 
     private final Context context;  
     
