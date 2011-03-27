@@ -4,9 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+<EditText  
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
+	android:id="@+id/catGet"
+	android:paddingBottom="5dip"
+/>
+		
 <Button
-	android:id="@+id/b1"
+	android:id="@+id/b2"
 	android:layout_width="fill_parent" 
 	android:layout_height="wrap_content"
-	android:text="Add Task"/>
+	android:text="Add Cat"/>
 </LinearLayout>

@@ -90,7 +90,7 @@ public class CDBAdapter {
     public Cursor getAllCategory() {
 
         return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_CATEGORY}
-        				, null, null, null, null, KEY_CATEGORY);
+        				, null, null, null, null, KEY_ROWID);
     }
     
     /**

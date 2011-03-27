@@ -6,6 +6,7 @@
     <string name="title">Task</string>
     <string name="category">Category</string>
     <string name="add">Add Task</string>
+    <string name="catSelect">Pick a Category</string>
     
     
 </resources>
