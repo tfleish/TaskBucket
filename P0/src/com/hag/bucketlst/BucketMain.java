@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class BucketMain extends CustomWindow {
+public class BucketMain extends CustomList {
     /** Called when the activity is first created. */
     
     @Override

@@ -86,6 +86,7 @@ public class TaskEdit extends CustomWindow {
     	alert = builder.create();
     }
     
+    /**
     private void populateCategories() 
     {
 		mCatText = (Spinner)findViewById(R.id.categoryGet);
@@ -94,7 +95,7 @@ public class TaskEdit extends CustomWindow {
     	Cursor catLst = cDbHelper.getAllCategory();
     	startManagingCursor(catLst);
 
-        /**     	
+        // OLD COMMENT BEGINS	
     	String[] categories = new String[catLst.getCount()];  
 
         if (catLst.moveToFirst())  
@@ -108,7 +109,7 @@ public class TaskEdit extends CustomWindow {
     	
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 			android.R.layout.simple_spinner_item, categories);
-        **/
+		// OLD COMMENT ENDS
     	
         // Create an array to specify the fields we want to display in the list (only TITLE)
         String[] from = new String[]{CDBAdapter.KEY_CATEGORY};
@@ -143,7 +144,8 @@ public class TaskEdit extends CustomWindow {
 
         });
 	}
-
+    **/
+    
 	private OnClickListener mAddListener = new OnClickListener()
     {
     	public void onClick(View v)
