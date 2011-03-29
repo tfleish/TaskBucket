@@ -48,6 +48,7 @@
 		android:text="@string/catSelect"
 		android:paddingTop="8dip"
 		android:layout_gravity="center"
+		android:gravity="left|center_vertical"
 		/>
 		
 		<!--

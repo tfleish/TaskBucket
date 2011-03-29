@@ -17,7 +17,7 @@ public class CDBAdapter {
     
     private static final String DATABASE_NAME = "BucketLST";
     private static final String DATABASE_TABLE = "tblCategories";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String DATABASE_CREATE =
         "create table " + DATABASE_TABLE + "(" + 
@@ -83,6 +83,17 @@ public class CDBAdapter {
     }
     
     /**
+     * Delete the note with the given rowId
+     * 
+     * @param rowId id of note to delete
+     * @return true if deleted, false otherwise
+     */
+    public boolean deleteCat(long catId) {
+
+        return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + catId, null) > 0;
+    }
+    
+    /**
      * Return a Cursor over the list of all Tasks in the database
      * 
      * @return Cursor over all tasks
@@ -90,7 +101,7 @@ public class CDBAdapter {
     public Cursor getAllCategory() {
 
         return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_CATEGORY}
-        				, null, null, null, null, KEY_ROWID);
+        				, null, null, null, null, null);
     }
     
     /**
@@ -100,7 +111,7 @@ public class CDBAdapter {
      * @return Cursor positioned to matching task, if found
      * @throws SQLException if task could not be found/retrieved
      */
-    public Cursor getTask(long rowId) throws SQLException {
+    public Cursor getCat(long rowId) throws SQLException {
 
         Cursor mCursor =
 

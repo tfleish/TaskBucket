@@ -8,23 +8,27 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class TaskEdit extends CustomWindow {
 	
+    private static final int ACTIVITY_MAKE_CAT=0;
+	
 	private EditText mTaskText;
-    private Spinner mCatText;
+	private Button editCategory;
     private Long mRowId;
     private LDBAdapter lDbHelper;
     private CDBAdapter cDbHelper;
     private String[] categories;
+    private long[] catIdLst;
     private AlertDialog alert;
+    private long catItem = 1;
+    private String category = "General";
+    private int completed = 0;
+    
+    //private Spinner mCatText;
 	
     /** Called when the activity is first created. */
     @Override
@@ -33,13 +37,31 @@ public class TaskEdit extends CustomWindow {
         super.onCreate(savedInstanceState);
         lDbHelper = new LDBAdapter(this);
         cDbHelper = new CDBAdapter(this);
+        lDbHelper.open();
+    	cDbHelper.open();
         
         setContentView(R.layout.tedit);
 		this.title.setText("Task Info");
 		
-    	//populateCategories();
+		mTaskText = (EditText)findViewById(R.id.titleGet);
+		
+    	editCategory = (Button) findViewById(R.id.newCategory);
+
+        mRowId = (savedInstanceState != null) ? savedInstanceState.getLong(LDBAdapter.KEY_ROWID) 
+											  : null;
+		if (mRowId == null) {
+		Bundle extras = getIntent().getExtras();            
+		mRowId = (extras != null) ? extras.getLong(LDBAdapter.KEY_ROWID) 
+								  : null;
+		}
+		
+		populateFields();
+
+    	//Create Category dialog and fill
 		genCatLst();
 		setupDialogue();
+		
+		editCategory.setText(category);
         
         // Capture Add Task button from layout
         // Register the onClick listener To add task and return
@@ -48,42 +70,153 @@ public class TaskEdit extends CustomWindow {
         
         // Capture Edit Category button from layout
         // Register the onClick listener To jump to edit page
-    	Button editCategory = (Button) findViewById(R.id.newCategory);
     	editCategory.setOnClickListener(mEditListener);
 
     }
     
+    private void populateFields() {
+        if (mRowId != null) {
+            Cursor task = lDbHelper.getTask(mRowId);
+            startManagingCursor(task);
+            mTaskText.setText(task.getString(
+    	            task.getColumnIndexOrThrow(LDBAdapter.KEY_TITLE)));
+            
+            completed = task.getInt(task.getColumnIndexOrThrow(LDBAdapter.KEY_COMPLETED));
+            
+            catItem = task.getLong(task.getColumnIndexOrThrow(LDBAdapter.KEY_CATID));
+            Cursor cat = cDbHelper.getCat(catItem);
+            startManagingCursor(cat);
+            category = cat.getString(
+                    cat.getColumnIndexOrThrow(CDBAdapter.KEY_CATEGORY));
+            editCategory.setText(category);
+        }
+    }
+    
     private void genCatLst()
     {
-    	cDbHelper.open();
     	Cursor catLst = cDbHelper.getAllCategory();
     	startManagingCursor(catLst);
     	
     	categories = new String[catLst.getCount()]; 
+    	catIdLst = new long[catLst.getCount()];
     	
         if (catLst.moveToFirst())  
         {                         
             for (int i = 0; i < catLst.getCount(); i++)  
             {  
                 categories[i] = catLst.getString(1);
+                catIdLst[i] = catLst.getLong(0);
                 catLst.moveToNext();  
             }             
         }  
-        
-        catLst.close();
-        cDbHelper.close();
     }
     
     private void setupDialogue()
     {
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setTitle("Set Category");
-    	builder.setSingleChoiceItems(categories, -1, new DialogInterface.OnClickListener() {
+    	builder.setPositiveButton("Edit Buckets", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	editCategory();
+            }
+        });
+    	builder.setSingleChoiceItems(categories, 0, new DialogInterface.OnClickListener() {
     	    public void onClick(DialogInterface dialog, int item) {
-    	        Toast.makeText(getApplicationContext(), categories[item], Toast.LENGTH_SHORT).show();
+    	    	catItem = catIdLst[item];
+    	    	category = categories[item];
+    	    	editCategory.setText(category);
+    	        //Toast.makeText(getApplicationContext(), categories[item] + " " + item, Toast.LENGTH_SHORT).show();
+    	        dialog.dismiss();
     	    }
     	});
     	alert = builder.create();
+    }
+    
+    private void editCategory() {
+        Intent i = new Intent(this, CategoryEdit.class);
+        startActivityForResult(i, ACTIVITY_MAKE_CAT);
+        //startActivity(i);
+    }
+    
+	private OnClickListener mAddListener = new OnClickListener()
+    {
+    	public void onClick(View v)
+    	{	
+    		Context context = getApplicationContext();
+			int duration = Toast.LENGTH_LONG;
+    		Toast toast;
+	    		
+    		if (mTaskText.length() != 0)
+    		{
+        		
+    			//toast = Toast.makeText(context, "Task: " + mTaskText.getText().toString() + " added", duration);
+    			//toast.show();
+    			
+    			saveState();
+    		}
+    		else
+    		{
+    			toast = Toast.makeText(context, "Please Add a Task", duration);
+    			toast.show();
+    		}
+    	}
+    };
+    
+	private OnClickListener mEditListener = new OnClickListener()
+    {
+    	public void onClick(View v)
+    	{
+    		alert.show();
+    	}
+    };
+    
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+		if (mRowId != null) {
+	        outState.putLong(LDBAdapter.KEY_ROWID, mRowId);
+		}
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //saveState();
+    }
+    
+    @Override
+    protected void onResume() {
+       super.onResume();
+       populateFields();
+    }
+    
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, 
+                                    Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+		genCatLst();
+		setupDialogue();
+		alert.show();
+    }
+    
+    private void saveState() {
+        String title = mTaskText.getText().toString();
+
+		if (mTaskText.length() != 0)
+		{
+	        if (mRowId == null) {
+	            long id = lDbHelper.insertTask(title, category, catItem, completed);
+	            if (id > 0) {
+	                mRowId = id;
+	            }
+	        } else {
+	            lDbHelper.updateTask(mRowId, title, category, catItem, completed);
+	        }
+		}
+	    setResult(RESULT_OK);
+	    finish();
     }
     
     /**
@@ -130,7 +263,6 @@ public class TaskEdit extends CustomWindow {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// TODO Auto-generated method stub
                 //int index = mCatText.getSelectedItemPosition();
                 Toast.makeText(getBaseContext(), 
                     "You have selected item : " + ((Cursor) mCatText.getSelectedItem()).getString(1),
@@ -138,72 +270,11 @@ public class TaskEdit extends CustomWindow {
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 
         });
 	}
     **/
-    
-	private OnClickListener mAddListener = new OnClickListener()
-    {
-    	public void onClick(View v)
-    	{	
-    		Context context = getApplicationContext();
-			int duration = Toast.LENGTH_LONG;
-    		Toast toast;
-    		
-    		try
-    		{
-	    		mTaskText = (EditText)findViewById(R.id.titleGet);
-	    		
-	    		if (mTaskText.length() != 0)
-	    		{
-	    			String Title = mTaskText.getText().toString();
-	    			
-	        		lDbHelper.open();
-	    			lDbHelper.insertList(Title,0,0);
-	        		lDbHelper.close();
-	        		
-	    			toast = Toast.makeText(context, "Task: " + Title + " added", duration);
-	    			toast.show();
-
-		        	Intent intent = new Intent(TaskEdit.this, BucketMain.class);
-		        	startActivity(intent);
-	    		}
-	    		else
-	    		{
-	    			toast = Toast.makeText(context, "Please Add a Task", duration);
-	    			toast.show();
-	    		}
-    		}
-    		catch (Exception ex)
-    		{
-    			context = getApplicationContext();
-    			CharSequence text = ex.toString();
-    			toast = Toast.makeText(context, text, duration);
-    			toast.show();
-    		}
-    	}
-    };
-    
-	private OnClickListener mEditListener = new OnClickListener()
-    {
-    	public void onClick(View v)
-    	{
-    		// do something when button is clicked
-    		try
-    		{
-            	//Intent intent = new Intent(TaskEdit.this, CategoryEdit.class);
-            	//startActivity(intent);
-    			alert.show();
-    		}
-    		catch (Exception ex)
-    		{
-
-    		}
-    	}
-    };
     
 }

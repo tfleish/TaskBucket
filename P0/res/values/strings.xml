@@ -4,9 +4,11 @@
     <string name="app_name">BucketLST</string>
     <string name="hello">Hello BucketLST</string>
     <string name="title">Task</string>
-    <string name="category">Category</string>
-    <string name="add">Add Task</string>
-    <string name="catSelect">Pick a Category</string>
-    
+    <string name="category">Bucket</string>
+    <string name="add">Done</string>
+    <string name="catSelect">Select a Bucket</string>
+   	<string name="menu_delete">Delete Task</string>
+    <string name="menu_insert">Add Task</string>
+    <string name="cat_delete">Delete Bucket</string>
     
 </resources>

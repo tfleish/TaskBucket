@@ -15,20 +15,27 @@ public class LDBAdapter {
 	int id = 0;
 	public static final String KEY_ROWID = "_id";
     public static final String KEY_TITLE = "Title";
+    public static final String KEY_CATEGORY = "Category";
     public static final String KEY_CATID = "CatId";
     public static final String KEY_COMPLETED = "Completed";
     private static final String TAG = "LDBAdapter";
     
     private static final String DATABASE_NAME = "BucketLST";
     private static final String DATABASE_TABLE = "tblList";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String DATABASE_CREATE =
         "create table " + DATABASE_TABLE + "(" + 
         KEY_ROWID + " integer primary key autoincrement, " + 
         KEY_TITLE + " text not null, " + 
+        KEY_CATEGORY + " text not null, " + 
         KEY_CATID + " integer not null, " + 
-        KEY_COMPLETED + " boolean not null );";
+        KEY_COMPLETED + " integer not null );";
+    
+    private static final String DATABASE_CAT_CREATE =
+        "create table tblCategories(" + 
+        KEY_ROWID + " integer primary key autoincrement, " + 
+        "Category text not null );";
 
     private final Context context;  
     
@@ -52,6 +59,12 @@ public class LDBAdapter {
         public void onCreate(SQLiteDatabase db) 
         {
             db.execSQL(DATABASE_CREATE);
+            
+            db.execSQL(DATABASE_CAT_CREATE);
+            
+            ContentValues initialValues = new ContentValues();
+            initialValues.put(KEY_CATEGORY, "General");
+            db.insert("tblCategories", null, initialValues);
         }
 
         @Override
@@ -81,15 +94,27 @@ public class LDBAdapter {
     }
     
     //---insert a title into the database---
-    public long insertList(String title, int catId, int completed) 
+    public long insertTask(String title, String category, long catId, int completed) 
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
-        initialValues.put(KEY_CATID, catId);
+        initialValues.put(KEY_CATEGORY, category);
+        initialValues.put(KEY_CATID, (int) catId);
         initialValues.put(KEY_COMPLETED, completed);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
+    /**
+     * Delete the note with the given rowId
+     * 
+     * @param rowId id of note to delete
+     * @return true if deleted, false otherwise
+     */
+    public boolean deleteTask(long rowId) {
+
+        return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+    
     /**
      * Return a Cursor over the list of all Tasks in the database
      * 
@@ -98,7 +123,7 @@ public class LDBAdapter {
     public Cursor getAllList() {
 
         return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE,
-                KEY_CATID, KEY_COMPLETED}, null, null, null, null, null);
+                KEY_CATEGORY, KEY_CATID, KEY_COMPLETED}, null, null, null, null, null);
     }
     
     /**
@@ -112,8 +137,8 @@ public class LDBAdapter {
 
         Cursor mCursor =
 
-                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                        KEY_TITLE, KEY_CATID, KEY_COMPLETED}, KEY_ROWID + "=" + rowId, null,
+                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE, 
+                        KEY_CATEGORY, KEY_CATID, KEY_COMPLETED}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -133,10 +158,11 @@ public class LDBAdapter {
      * @param completed value to set task completeness to
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateNote(long rowId, String title, int catId, int complete) {
+    public boolean updateTask(long rowId, String title, String category, long catId, int complete) {
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
-        args.put(KEY_CATID, catId);
+        args.put(KEY_CATEGORY, category);
+        args.put(KEY_CATID, (int) catId);
         args.put(KEY_COMPLETED, complete);
 
         return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
