@@ -35,12 +35,13 @@ public class TaskEdit extends CustomWindow {
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.tedit);
+        
         lDbHelper = new LDBAdapter(this);
         cDbHelper = new CDBAdapter(this);
         lDbHelper.open();
     	cDbHelper.open();
         
-        setContentView(R.layout.tedit);
 		this.title.setText("Task Info");
 		
 		mTaskText = (EditText)findViewById(R.id.titleGet);
@@ -114,7 +115,7 @@ public class TaskEdit extends CustomWindow {
     private void setupDialogue()
     {
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setTitle("Set Category");
+    	builder.setTitle("Set Bucket");
     	builder.setPositiveButton("Edit Buckets", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             	editCategory();

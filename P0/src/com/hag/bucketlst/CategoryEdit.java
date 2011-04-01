@@ -2,7 +2,6 @@ package com.hag.bucketlst;
 
 // test push from eclipse in testBranch?
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -44,6 +43,7 @@ public class CategoryEdit extends CustomList {
     private void fillData() {
         Cursor catCursor = db.getAllCategory();
         startManagingCursor(catCursor);
+        catCursor.moveToNext();
         
         // Create an array to specify the fields we want to display in the list (only TITLE)
         String[] from = new String[]{CDBAdapter.KEY_CATEGORY};

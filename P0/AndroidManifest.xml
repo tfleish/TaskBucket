@@ -6,19 +6,25 @@
 
 
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@style/CustomTheme">
-        <activity android:label="@string/app_name" android:name=".BucketMain">
+        <activity android:label="@string/app_name" android:name=".BucketMain"
+        	android:configChanges="orientation|keyboardHidden"
+        	android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-		<activity android:name=".TaskEdit">
+		<activity android:name=".TaskEdit" android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".CategoryEdit"></activity>
+		
+		<activity android:name=".CategoryEdit" android:configChanges="orientation|keyboardHidden" 
+			android:windowSoftInputMode="adjustResize">
+		</activity>
 
     </application>
 </manifest>

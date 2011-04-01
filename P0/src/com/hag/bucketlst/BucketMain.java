@@ -29,6 +29,7 @@ public class BucketMain extends CustomList {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
+    	setContentView(R.layout.sutedit);
         this.title.setText("bucketLST");
         mDbHelper = new LDBAdapter(this);
         mDbHelper.open();
