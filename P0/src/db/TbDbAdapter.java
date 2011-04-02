@@ -574,6 +574,16 @@ public class TbDbAdapter {
 		return localSQLiteDatabase.query(DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
 	}
 	
+	public Cursor fetchAllCollaborators()
+	{
+		SQLiteDatabase localSQLiteDatabase = getDB();
+		String[] arrayOfStrings = new String[3];		
+		arrayOfStrings[0] = KEY_USER_ID;
+		arrayOfStrings[1] = KEY_USER_NAME;
+		arrayOfStrings[2] = KEY_USER_DISPLAYNAME;
+		return localSQLiteDatabase.query(DATABASE_TABLE_USERS, arrayOfStrings, null, null, null, null, null);
+	}
+	
     /**
      * Return a Cursor positioned at the task that matches the given rowId
      * 
@@ -601,7 +611,7 @@ public class TbDbAdapter {
         
         String str = KEY_TASK_LOCID + "=" + rowId;
 
-		Cursor localCursor = localSQLiteDatabase.query(DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
+		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
 		if (localCursor != null){
 			localCursor.moveToFirst();
 		}
@@ -617,12 +627,16 @@ public class TbDbAdapter {
      */
     public Cursor fetchCategory(long rowId)
     {
-      SQLiteDatabase localSQLiteDatabase = getDB();
-      String[] arrayOfStrings = new String[2];
-      arrayOfStrings[0] = KEY_CAT_NAME;
-      arrayOfStrings[1] = KEY_CAT_ISEDITABLE;
-      String str = KEY_CAT_ID + "=" + rowId;
-      return localSQLiteDatabase.query(DATABASE_TABLE_CATEGORIES, arrayOfStrings, str, null, null, null, null);
+		SQLiteDatabase localSQLiteDatabase = getDB();
+		String[] arrayOfStrings = new String[2];
+		arrayOfStrings[0] = KEY_CAT_NAME;
+		arrayOfStrings[1] = KEY_CAT_ISEDITABLE;
+		String str = KEY_CAT_ID + "=" + rowId;
+		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_CATEGORIES, arrayOfStrings, str, null, null, null, null, null);
+		if (localCursor != null){
+			localCursor.moveToFirst();
+		}
+		return localCursor;
     }
     
     
@@ -633,7 +647,11 @@ public class TbDbAdapter {
         arrayOfStrings[0] = KEY_PRI_NAME;
         arrayOfStrings[1] = KEY_PRI_COLOR;
         String str = KEY_PRI_ID + "=" + rowId;
-        return localSQLiteDatabase.query(DATABASE_TABLE_PRIORITY, arrayOfStrings, str, null, null, null, null);
+        Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_PRIORITY, arrayOfStrings, str, null, null, null, null, null);
+		if (localCursor != null){
+			localCursor.moveToFirst();
+		}
+		return localCursor;
     }
     
 	public Cursor fetchUncheckedByCategory(long catId)
@@ -656,7 +674,11 @@ public class TbDbAdapter {
 		
 		String str = "(" + KEY_TASK_CATID + "=" + catId + ") AND (" + KEY_TASK_ISDELETED + "='0')";
 		//"(category=" + paramLong + ") AND (" + "is_deleted" + "='false')";
-		return localSQLiteDatabase.query(DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
+		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
+		if (localCursor != null){
+			localCursor.moveToFirst();
+		}
+		return localCursor;
 	}
 	
 	public Cursor fetchUncheckedByPriority(long priId)
@@ -679,7 +701,41 @@ public class TbDbAdapter {
 		
 		String str = "(" + KEY_TASK_PRIORITY + "=" + priId + ") AND (" + KEY_TASK_ISDELETED + "='0')";
 		//"(importance=" + paramLong + ") AND (" + "is_deleted" + "='false')";
-		return localSQLiteDatabase.query(DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
+		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
+		if (localCursor != null){
+			localCursor.moveToFirst();
+		}
+		return localCursor;
+	}
+	
+	public Cursor fetchCollabsByTask(long locId)
+	{
+		SQLiteDatabase localSQLiteDatabase = getDB();
+		String[] arrayOfStrings = new String[1];
+		
+		arrayOfStrings[0] = KEY_TASKUSER_USERID;
+		
+		String str = "(" + KEY_TASKUSER_TASKID + "=" + locId + ")";
+		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_TASK_USER, arrayOfStrings, str, null, null, null, null, null);
+		if (localCursor != null){
+			localCursor.moveToFirst();
+		}
+		return localCursor;
+	}
+	
+	public Cursor fetchCollabsByCategory(long catId)
+	{
+		SQLiteDatabase localSQLiteDatabase = getDB();
+		String[] arrayOfStrings = new String[1];
+		
+		arrayOfStrings[0] = KEY_CATUSER_USERID;
+		
+		String str = "(" + KEY_CATUSER_CATID + "=" + catId + ")";
+		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_CAT_USER, arrayOfStrings, str, null, null, null, null, null);
+		if (localCursor != null){
+			localCursor.moveToFirst();
+		}
+		return localCursor;
 	}
 
 	public long countUncheckedTasksByCategory(long catId)
@@ -754,7 +810,7 @@ public class TbDbAdapter {
                 return cursor.getString(0);
     }
     
-    private long getDefaultCategoryId()
+    public long getDefaultCategoryId()
     {
       String[] arrayOfString = new String[1];
       arrayOfString[0] = KEY_CAT_ID;
@@ -770,7 +826,7 @@ public class TbDbAdapter {
       return l;
     }
     
-    private long getDefaultPriorityId()
+    public long getDefaultPriorityId()
     {
       String[] arrayOfString = new String[1];
       arrayOfString[0] = KEY_PRI_ID;

@@ -15,9 +15,10 @@ public class CustomTab extends TabActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.cus_tab);
         
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);        
+        setContentView(R.layout.cus_tab);        
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
         //View view = getLayoutInflater().inflate(R.layout.window_title, null);
         title = (TextView) findViewById(R.id.title);

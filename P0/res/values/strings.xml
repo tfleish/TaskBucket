@@ -16,7 +16,7 @@
 	<string name="dDate">Due Date</string>
 	<string name="notes">My Notes</string>
 	<string name="taskComplete">Done</string>
-	
-	
+	<string name="choCollab">Choose Collaborators</string>
+	<string name="collaborators">Collaborators</string>
     
 </resources>
