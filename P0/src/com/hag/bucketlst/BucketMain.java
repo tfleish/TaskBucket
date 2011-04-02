@@ -1,6 +1,8 @@
 package com.hag.bucketlst;
 
 // test push from eclipse in testBranch?
+import customWindows.CustomList;
+import db.LDBAdapter;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ public class BucketMain extends CustomList {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	setContentView(R.layout.sutedit);
+    	setContentView(R.layout.main);
         this.title.setText("bucketLST");
         mDbHelper = new LDBAdapter(this);
         mDbHelper.open();
@@ -93,8 +95,9 @@ public class BucketMain extends CustomList {
 	}
     
     private void createNote() {
-        Intent i = new Intent(this, TaskEdit.class);
-        startActivityForResult(i, ACTIVITY_CREATE);
+        Intent i = new Intent(this, NTaskEdit.class);
+        //startActivityForResult(i, ACTIVITY_CREATE);
+        startActivity(i);
     }
     
     @Override

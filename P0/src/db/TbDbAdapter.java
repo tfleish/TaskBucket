@@ -1,4 +1,4 @@
-package com.hag.bucketlst;
+package db;
 
 import java.util.Date;
 import java.util.Random;
@@ -50,7 +50,7 @@ public class TbDbAdapter {
     
     private static final String TAG = "Task Bucket DB Adapter";
     
-    private static final String DATABASE_NAME = "BucketLst";
+    private static final String DATABASE_NAME = "TskBkt";
     
     private static final String DATABASE_TABLE_TASKS = "tblTasks";
     private static final String DATABASE_TABLE_CATEGORIES = "tblCategories";

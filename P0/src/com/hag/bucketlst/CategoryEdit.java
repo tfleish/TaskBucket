@@ -1,6 +1,8 @@
 package com.hag.bucketlst;
 
 // test push from eclipse in testBranch?
+import customWindows.CustomList;
+import db.CDBAdapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;

@@ -10,5 +10,13 @@
    	<string name="menu_delete">Delete Task</string>
     <string name="menu_insert">Add Task</string>
     <string name="cat_delete">Delete Bucket</string>
+    <string name="priSelect">Set Priority</string>
+    <string name="priority">Priority</string>
+	<string name="setDate">Set Date</string>
+	<string name="dDate">Due Date</string>
+	<string name="notes">My Notes</string>
+	<string name="taskComplete">Done</string>
+	
+	
     
 </resources>

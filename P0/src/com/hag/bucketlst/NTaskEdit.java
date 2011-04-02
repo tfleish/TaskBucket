@@ -1,8 +1,5 @@
 package com.hag.bucketlst;
 
-import customWindows.CustomWindow;
-import db.CDBAdapter;
-import db.LDBAdapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,9 +10,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TabHost;
 import android.widget.Toast;
+import customWindows.CustomTab;
+import db.CDBAdapter;
+import db.LDBAdapter;
+import db.TbDbAdapter;
 
-public class TaskEdit extends CustomWindow {
+public class NTaskEdit extends CustomTab {
 	
     private static final int ACTIVITY_MAKE_CAT=0;
 	
@@ -24,6 +26,7 @@ public class TaskEdit extends CustomWindow {
     private Long mRowId;
     private LDBAdapter lDbHelper;
     private CDBAdapter cDbHelper;
+    private TbDbAdapter tbDbHelper;
     private String[] categories;
     private long[] catIdLst;
     private AlertDialog alert;
@@ -38,14 +41,25 @@ public class TaskEdit extends CustomWindow {
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tedit);
+        this.title.setText("bucketLST");
+        setContentView(R.layout.ntedit);
         
+        TabHost mTabHost = getTabHost();
+        mTabHost.addTab(mTabHost.newTabSpec("Task Information").setIndicator("Task Info").setContent(R.id.infoTab));
+        mTabHost.addTab(mTabHost.newTabSpec("Notes").setIndicator("My Notes").setContent(R.id.notesTab));       
+        mTabHost.setCurrentTab(0);
+        
+        
+        tbDbHelper = new TbDbAdapter(this);
+        tbDbHelper.open();
+
+        /**
         lDbHelper = new LDBAdapter(this);
         cDbHelper = new CDBAdapter(this);
         lDbHelper.open();
     	cDbHelper.open();
         
-		this.title.setText("Task Info");
+		
 		
 		mTaskText = (EditText)findViewById(R.id.titleGet);
 		
@@ -75,7 +89,7 @@ public class TaskEdit extends CustomWindow {
         // Capture Edit Category button from layout
         // Register the onClick listener To jump to edit page
     	editCategory.setOnClickListener(mEditListener);
-
+    	**/
     }
     
     private void populateFields() {
@@ -153,10 +167,10 @@ public class TaskEdit extends CustomWindow {
     		if (mTaskText.length() != 0)
     		{
         		
-    			//toast = Toast.makeText(context, "Task: " + mTaskText.getText().toString() + " added", duration);
-    			//toast.show();
+    			toast = Toast.makeText(context, "Task: " + mTaskText.getText().toString() + " added", duration);
+    			toast.show();
     			
-    			saveState();
+    			//saveState();
     		}
     		else
     		{
@@ -174,7 +188,7 @@ public class TaskEdit extends CustomWindow {
     	}
     };
     
-    
+    /**
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -223,7 +237,7 @@ public class TaskEdit extends CustomWindow {
 	    finish();
     }
     
-    /**
+
     private void populateCategories() 
     {
 		mCatText = (Spinner)findViewById(R.id.categoryGet);

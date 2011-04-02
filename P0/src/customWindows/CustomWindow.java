@@ -1,10 +1,12 @@
-package com.hag.bucketlst;
+package customWindows;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.hag.bucketlst.R;
 
 public class CustomWindow extends Activity {
 	protected TextView title;
@@ -13,13 +15,10 @@ public class CustomWindow extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.cus_win);
         
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        
-        setContentView(R.layout.main);
-        
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
-        
         title = (TextView) findViewById(R.id.title);
 	}
 }

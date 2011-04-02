@@ -1,6 +1,4 @@
-package com.hag.bucketlst;
-
-import java.util.Random;
+package db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,39 +8,28 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class LDBAdapter {
-	
+public class CDBAdapter {
+
 	int id = 0;
 	public static final String KEY_ROWID = "_id";
-    public static final String KEY_TITLE = "Title";
     public static final String KEY_CATEGORY = "Category";
-    public static final String KEY_CATID = "CatId";
-    public static final String KEY_COMPLETED = "Completed";
-    private static final String TAG = "LDBAdapter";
+    private static final String TAG = "CDBAdapter";
     
     private static final String DATABASE_NAME = "BucketLST";
-    private static final String DATABASE_TABLE = "tblList";
+    private static final String DATABASE_TABLE = "tblCategories";
     private static final int DATABASE_VERSION = 3;
 
     private static final String DATABASE_CREATE =
         "create table " + DATABASE_TABLE + "(" + 
         KEY_ROWID + " integer primary key autoincrement, " + 
-        KEY_TITLE + " text not null, " + 
-        KEY_CATEGORY + " text not null, " + 
-        KEY_CATID + " integer not null, " + 
-        KEY_COMPLETED + " integer not null );";
-    
-    private static final String DATABASE_CAT_CREATE =
-        "create table tblCategories(" + 
-        KEY_ROWID + " integer primary key autoincrement, " + 
-        "Category text not null );";
+        KEY_CATEGORY + " text not null );";
 
     private final Context context;  
     
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
     
-    public LDBAdapter(Context ctx) 
+    public CDBAdapter(Context ctx) 
     {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);
@@ -59,12 +46,6 @@ public class LDBAdapter {
         public void onCreate(SQLiteDatabase db) 
         {
             db.execSQL(DATABASE_CREATE);
-            
-            db.execSQL(DATABASE_CAT_CREATE);
-            
-            ContentValues initialValues = new ContentValues();
-            initialValues.put(KEY_CATEGORY, "General");
-            db.insert("tblCategories", null, initialValues);
         }
 
         @Override
@@ -74,14 +55,14 @@ public class LDBAdapter {
             Log.w(TAG, "Upgrading database from version " + oldVersion 
                   + " to "
                   + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS tblList");
+            db.execSQL("DROP TABLE IF EXISTS tblCategories");
             onCreate(db);
         }
     }
 	
     
     //---opens the database---
-    public LDBAdapter open() throws SQLException 
+    public CDBAdapter open() throws SQLException 
     {
         db = DBHelper.getWritableDatabase();
         return this;
@@ -93,26 +74,23 @@ public class LDBAdapter {
         DBHelper.close();
     }
     
-    //---insert a title into the database---
-    public long insertTask(String title, String category, long catId, int completed) 
+    //---insert a category into the database---
+    public long insertCategory(String Category) 
     {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_TITLE, title);
-        initialValues.put(KEY_CATEGORY, category);
-        initialValues.put(KEY_CATID, (int) catId);
-        initialValues.put(KEY_COMPLETED, completed);
+        initialValues.put(KEY_CATEGORY, Category);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
-
+    
     /**
      * Delete the note with the given rowId
      * 
      * @param rowId id of note to delete
      * @return true if deleted, false otherwise
      */
-    public boolean deleteTask(long rowId) {
+    public boolean deleteCat(long catId) {
 
-        return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
+        return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + catId, null) > 0;
     }
     
     /**
@@ -120,10 +98,10 @@ public class LDBAdapter {
      * 
      * @return Cursor over all tasks
      */
-    public Cursor getAllList() {
+    public Cursor getAllCategory() {
 
-        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE,
-                KEY_CATEGORY, KEY_CATID, KEY_COMPLETED}, null, null, null, null, null);
+        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_CATEGORY}
+        				, null, null, null, null, null);
     }
     
     /**
@@ -133,12 +111,12 @@ public class LDBAdapter {
      * @return Cursor positioned to matching task, if found
      * @throws SQLException if task could not be found/retrieved
      */
-    public Cursor getTask(long rowId) throws SQLException {
+    public Cursor getCat(long rowId) throws SQLException {
 
         Cursor mCursor =
 
-                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE, 
-                        KEY_CATEGORY, KEY_CATID, KEY_COMPLETED}, KEY_ROWID + "=" + rowId, null,
+                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
+                        KEY_CATEGORY}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -158,12 +136,9 @@ public class LDBAdapter {
      * @param completed value to set task completeness to
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateTask(long rowId, String title, String category, long catId, int complete) {
+    public boolean updateNote(long rowId, String title, int catId, int complete) {
         ContentValues args = new ContentValues();
-        args.put(KEY_TITLE, title);
-        args.put(KEY_CATEGORY, category);
-        args.put(KEY_CATID, (int) catId);
-        args.put(KEY_COMPLETED, complete);
+        args.put(KEY_CATEGORY, title);
 
         return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -173,30 +148,14 @@ public class LDBAdapter {
      * 
      * @return how many stuff is in the table
      */
-    public int getAllCount() 
-    {
+    public int getAllEntriesCount() 
+    {	
+    	//return 1;
         Cursor cursor = db.rawQuery(
-                    "SELECT COUNT(Title) FROM tblList", null);
+                    "SELECT COUNT(Category) FROM tblCategories", null);
                 if(cursor.moveToFirst()) {
                     return cursor.getInt(0);
                 }
                 return cursor.getInt(0);
-
-    }
-    
-    public String getRandomEntry() 
-    {
-    	
-    	id = getAllCount();
-    	Random random = new Random();
-    	int rand = random.nextInt(getAllCount());
-    	if(rand == 0)
-    		++rand;
-        Cursor cursor = db.rawQuery(
-                    "SELECT * FROM tblCategories WHERE _id = " + rand, null);
-                if(cursor.moveToFirst()) {
-                    return cursor.getString(0);
-                }
-                return cursor.getString(0);
     }
 }

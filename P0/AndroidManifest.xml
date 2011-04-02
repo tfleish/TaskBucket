@@ -14,14 +14,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+		
+		<activity android:name=".NTaskEdit" android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize">
+		</activity>
+		
 		<activity android:name=".TaskEdit" android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".CategoryEdit" android:configChanges="orientation|keyboardHidden" 
 			android:windowSoftInputMode="adjustResize">
 		</activity>
