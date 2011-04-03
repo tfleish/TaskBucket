@@ -1,4 +1,9 @@
-package com.hag.bucketlst;
+package Old;
+
+import com.hag.bucketlst.CategoryEdit;
+import com.hag.bucketlst.R;
+import com.hag.bucketlst.R.id;
+import com.hag.bucketlst.R.layout;
 
 import customWindows.CustomWindow;
 import db.CDBAdapter;

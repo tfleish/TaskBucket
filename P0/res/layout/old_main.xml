@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/myTasks"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#AA000000"
+   >   	
+   	<LinearLayout
+		android:orientation="horizontal"
+		android:id="@+id/topBar"
+		android:padding="5.0dip"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		<ImageButton
+			android:id="@+id/mainTaskAdd"
+			android:background="@drawable/selector_add"
+			android:layout_width="55.0dip"
+			android:layout_height="41.500004dip"
+			android:layout_marginLeft="5.0dip"
+			android:layout_marginTop="1.0dip"
+			android:scaleType="center"
+			>
+		</ImageButton>		
+		<EditText
+			android:id="@+id/taskGet"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0"
+			>
+		</EditText>
+		<ImageButton
+			android:id="@+id/speakNowTitle"
+			android:background="@drawable/selector_speak_now"
+			android:layout_width="46.0dip"
+			android:layout_height="41.500004dip"
+			android:layout_marginTop="1.0dip"
+			android:layout_marginRight="5.0dip"
+			android:scaleType="center"
+			>
+		</ImageButton>	
+	</LinearLayout>
+  	
+	<LinearLayout
+		android:id="@+id/taskViews"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+	    android:layout_weight="1.0"
+	>
+	  	<TextView
+	  	android:id="@+id/android:empty"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="No Tasks!"
+	    android:layout_weight="1.0"
+	    android:visibility="gone"
+	    />
+		
+	    <ListView 
+	    android:id="@+id/liveList"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:choiceMode="multipleChoice"
+	    />
+	    <!--
+	    <com.hag.bucketlst.views.CheckedTasks
+	    android:id="@+id/checkedList"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+		android:choiceMode="multipleChoice"
+	    />
+	     -->
+    </LinearLayout>
+    
+	<LinearLayout 
+	android:layout_height="wrap_content" 
+	android:layout_width="fill_parent"
+	android:layout_alignParentBottom="true"
+	style="@android:style/ButtonBar"
+	>
+	    <Button
+		android:id="@+id/b1"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:text="Add Task"
+		android:paddingTop="8dip"
+		android:layout_gravity="center|bottom"
+		/>
+     </LinearLayout>
+</LinearLayout>

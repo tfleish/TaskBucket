@@ -19,7 +19,7 @@
 			android:windowSoftInputMode="adjustResize">
 		</activity>
 		
-		<activity android:name=".TaskEdit" android:configChanges="orientation|keyboardHidden"
+		<activity android:name="Old.TaskEdit" android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -29,6 +29,18 @@
 		<activity android:name=".CategoryEdit" android:configChanges="orientation|keyboardHidden" 
 			android:windowSoftInputMode="adjustResize">
 		</activity>
-
+		
+		<activity android:name="MyTasks" android:configChanges="orientation|keyboardHidden" 
+			android:windowSoftInputMode="adjustResize">
+		</activity>
+		
+		<activity android:name=".ByBuckets" android:configChanges="orientation|keyboardHidden" 
+			android:windowSoftInputMode="adjustResize">
+		</activity>
+		
+		<activity android:name=".ByPriority" android:configChanges="orientation|keyboardHidden" 
+			android:windowSoftInputMode="adjustResize">
+		</activity>
+		
     </application>
 </manifest>

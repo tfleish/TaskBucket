@@ -1,6 +1,12 @@
-package com.hag.bucketlst;
+package Old;
 
 // test push from eclipse in testBranch?
+import com.hag.bucketlst.NTaskEdit;
+import com.hag.bucketlst.R;
+import com.hag.bucketlst.R.id;
+import com.hag.bucketlst.R.layout;
+import com.hag.bucketlst.R.string;
+
 import customWindows.CustomList;
 import db.LDBAdapter;
 import android.content.Intent;
