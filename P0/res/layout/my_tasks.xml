@@ -50,29 +50,14 @@
 		android:layout_alignParentTop="true"
 	    android:layout_weight="1.0"
 	>
-	  	<TextView
-	  	android:id="@+id/android:empty"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="No Tasks!"
-	    android:layout_weight="1.0"
-	    android:visibility="gone"
-	    />
-		
+
 	    <ListView 
 	    android:id="@+id/liveList"
 	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:choiceMode="multipleChoice"
-	    />
-	    <!--
-	    <com.hag.bucketlst.views.CheckedTasks
-	    android:id="@+id/checkedList"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-		android:choiceMode="multipleChoice"
-	    />
-	     -->
+	    />	   
+
     </LinearLayout>
     
 	<LinearLayout 

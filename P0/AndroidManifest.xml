@@ -18,19 +18,16 @@
 		<activity android:name=".NTaskEdit" android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize">
 		</activity>
-		
-		<activity android:name="Old.TaskEdit" android:configChanges="orientation|keyboardHidden"
+
+		<activity android:name=".MyTasks" android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-			</intent-filter>
 		</activity>
+		
+		<activity android:name=".MyDoneTasks" android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize">
+		</activity>		
 
 		<activity android:name=".CategoryEdit" android:configChanges="orientation|keyboardHidden" 
-			android:windowSoftInputMode="adjustResize">
-		</activity>
-		
-		<activity android:name="MyTasks" android:configChanges="orientation|keyboardHidden" 
 			android:windowSoftInputMode="adjustResize">
 		</activity>
 		

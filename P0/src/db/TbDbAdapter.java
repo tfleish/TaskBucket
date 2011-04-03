@@ -403,12 +403,13 @@ public class TbDbAdapter {
     public Cursor fetchAllTask() 
     {
         SQLiteDatabase localSQLiteDatabase = getDB();
-        String[] arrayOfStrings = new String[5];
+        String[] arrayOfStrings = new String[6];
         arrayOfStrings[0] = KEY_TASK_LOCID;
         arrayOfStrings[1] = KEY_TASK_TITLE;
         arrayOfStrings[2] = KEY_TASK_NOTES;
         arrayOfStrings[3] = KEY_TASK_ISCHECKED;
         arrayOfStrings[4] = KEY_TASK_CATID;
+        arrayOfStrings[5] = KEY_TASK_PRIORITY;
         return localSQLiteDatabase.query(DATABASE_TABLE_TASKS, arrayOfStrings, null, null, null, null, null);
     }
     
@@ -815,7 +816,8 @@ public class TbDbAdapter {
 	public long countCollaboratorsByTask(long locId)
 	{
 		SQLiteDatabase localSQLiteDatabase = getDB();
-		String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_TASK_USER + " WHERE (" + KEY_TASK_LOCID + "=" + locId + ");";
+		//String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_TASK_USER + " WHERE (" + KEY_TASK_LOCID + "=" + locId + ")";
+		String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_TASK_USER;
 		SQLiteStatement localSQLiteStatement = localSQLiteDatabase.compileStatement(str);
 		long l = localSQLiteStatement.simpleQueryForLong();
 		localSQLiteStatement.close();
@@ -902,7 +904,7 @@ public class TbDbAdapter {
       return new Date(l);
     }
 
-    public int getPriorityImage(long rowId, boolean paramBoolean)
+    public int getPriorityImage(long rowId, boolean isChecked)
     {
       SQLiteDatabase localSQLiteDatabase = getDB();
       String[] arrayOfString = new String[1];
@@ -918,7 +920,7 @@ public class TbDbAdapter {
         int j = localCursor.getColumnIndexOrThrow(KEY_PRI_COLOR);
         str5 = localCursor.getString(j);
         localResources1 = this.context.getResources();
-        str6 = "com.taskos:drawable/" + str5;
+        str6 = (!isChecked) ? "com.hag.bucketlst:drawable/" + str5 : "com.hag.bucketlst:drawable/" + str5 + "_grayed";
         i = localResources1.getIdentifier(str6, null, null);
       }
       localCursor.close();

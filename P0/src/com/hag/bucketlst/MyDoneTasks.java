@@ -1,6 +1,5 @@
 package com.hag.bucketlst;
 
-import adapter.LiveTaskAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,12 +14,12 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import db.TbDbAdapter;
 
-public class MyTasks extends Activity{
+public class MyDoneTasks extends Activity{
   /** Called when the activity is first created. */
 	
     private static final int ACTIVITY_CREATE=0;
@@ -30,63 +29,46 @@ public class MyTasks extends Activity{
     private static final int DELETE_ID = Menu.FIRST + 1;
     
     private ListView mLiveTaskList;
+    private ListView mCheckedTaskList;
     private TbDbAdapter mDbHelper;
-    private Cursor mTaskCursor;
-    private LiveTaskAdapter mTasksAdapter;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	setContentView(R.layout.my_tasks);
+    	setContentView(R.layout.done_tasks);
 
         mDbHelper = new TbDbAdapter(this);
         mDbHelper.open();
         
-        mLiveTaskList = (ListView)findViewById(R.id.liveList);
-        initUnCheckedData();
-        
+        mCheckedTaskList = (ListView)findViewById(R.id.checkedList);
+        initCheckedData();
+
+        //fillData();
         //registerForContextMenu(getListView());
     	Button b1 = (Button) findViewById(R.id.b1);
     	b1.setOnClickListener(mAddListener);
     }
-    
-    private void initUnCheckedData() {
+
+    private void initCheckedData() {
     	
-        mLiveTaskList.setOnItemClickListener(new mLiveTaskClickL());
-        mLiveTaskList.setOnCreateContextMenuListener(new mLiveTaskCreateL());
+    	mCheckedTaskList.setOnItemClickListener(new mLiveTaskClickL());
+    	mCheckedTaskList.setOnCreateContextMenuListener(new mLiveTaskCreateL());
         
-        mTaskCursor = mDbHelper.fetchAllTask();
-        startManagingCursor(mTaskCursor);
-        
-        mTasksAdapter = new LiveTaskAdapter(this, R.layout.n_task_row, mTaskCursor);
-        
-        /**
+        Cursor taskCursor = mDbHelper.fetchAllTask();
+        startManagingCursor(taskCursor);
 
         // Create an array to specify the fields we want to display in the list (only TITLE)
-        String[] from = new String[]{TbDbAdapter.KEY_TASK_TITLE, TbDbAdapter.KEY_TASK_CATID};
+        String[] from = new String[]{TbDbAdapter.KEY_TASK_CATID, TbDbAdapter.KEY_TASK_TITLE};
         
         // and an array of the fields we want to bind those fields to (in this case just text1)
         int[] to = new int[]{R.id.text1, R.id.cat};
 
         // Now create a simple cursor adapter and set it to display
         SimpleCursorAdapter notes = 
-        	    new SimpleCursorAdapter(this, R.layout.n_task_row, mTaskCursor, from, to);
-        	    
-      	**/
-        mLiveTaskList.setAdapter(mTasksAdapter);
-    }
-    
-    private void updateLiveList()
-    {
-    	mTaskCursor.requery();
+        	    new SimpleCursorAdapter(this, R.layout.d_task_row, taskCursor, from, to);
+        mCheckedTaskList.setAdapter(notes);
     }
 
-    public TbDbAdapter getDbHelper()
-    {
-    	return mDbHelper;
-    }
-    
-    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -110,7 +92,7 @@ public class MyTasks extends Activity{
     	case DELETE_ID:
     		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	        mDbHelper.deleteTask(info.id);
-	        updateLiveList();
+	        //fillData();
 	        return true;
 		}
 		return super.onContextItemSelected(item);
@@ -121,7 +103,7 @@ public class MyTasks extends Activity{
     protected void onActivityResult(int requestCode, int resultCode, 
                                     Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        updateLiveList();
+        //fillData();
     }
     
     private void createNote() {
@@ -158,9 +140,4 @@ public class MyTasks extends Activity{
 				menu.add(0, DELETE_ID, 0, R.string.menu_delete);			
 		}
 	}
-
-	public void onCheck(long l, boolean isChecked) {
-		Toast.makeText(this, Long.toString(l), Toast.LENGTH_SHORT).show();		
-	}
-        
 }

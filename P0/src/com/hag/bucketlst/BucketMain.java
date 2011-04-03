@@ -1,11 +1,10 @@
 package com.hag.bucketlst;
 
 // test push from eclipse in testBranch?
-import customWindows.CustomTab;
-import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
+import customWindows.CustomTab;
 
 public class BucketMain extends CustomTab {
     /** Called when the activity is first created. */
@@ -28,15 +27,15 @@ public class BucketMain extends CustomTab {
         tabHost.addTab(spec);
 
         // Do the same for the other tabs
+        intent = new Intent().setClass(this, MyDoneTasks.class);
+        spec = tabHost.newTabSpec("Checked Tasks").setIndicator("Done Tasks").setContent(intent);
+        tabHost.addTab(spec);
+
         intent = new Intent().setClass(this, ByBuckets.class);
-        spec = tabHost.newTabSpec("Bucket Sort").setIndicator("By Bucket").setContent(intent);
+        spec = tabHost.newTabSpec("Bucket Sort").setIndicator("My Buckets").setContent(intent);
         tabHost.addTab(spec);
 
-        intent = new Intent().setClass(this, ByPriority.class);
-        spec = tabHost.newTabSpec("Priority Sort").setIndicator("By Priority").setContent(intent);
-        tabHost.addTab(spec);
-
-        tabHost.setCurrentTab(2);
+        tabHost.setCurrentTab(0);
     }
 
 }

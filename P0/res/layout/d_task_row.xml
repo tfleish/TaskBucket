@@ -8,6 +8,7 @@
     >
     
    	<ImageView
+   		android:src="@drawable/red_grad_bg"
 		android:layout_gravity="left"
 		android:id="@+id/priColor"
 		android:layout_width="4.0dip"
@@ -15,7 +16,20 @@
 		android:layout_marginRight="6.0dip"
 		>
 	</ImageView>
+	
+	<ImageButton
+		android:id="@+id/taskCheck"
+		android:background="@drawable/btn_check_on_grayed"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="3dip"
+        android:layout_marginLeft="3dip"
+		>
+	</ImageButton>
     
+    <!-- 
 	<CheckBox
 		android:id="@+id/taskCheck"
         android:layout_height="fill_parent"
@@ -25,8 +39,10 @@
         android:layout_marginLeft="3dip"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:checked="true"
         android:button="@drawable/selector_checkbox"
 	/>
+	-->
  	<LinearLayout
  		android:orientation="vertical"
 		android:layout_width="0.0dip"
@@ -53,15 +69,15 @@
 			android:layout_weight="1.0"
 		 />
 	</LinearLayout>
-	<ImageView
-		android:id="@+id/plusOne"
-		android:src="@drawable/no_image"
-		android:layout_width="30.0dip"
-		android:layout_height="30.0dip"
+	<ImageButton
+		android:id="@+id/delButton"
+		android:background="@drawable/selector_delete_item"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+		android:layout_width="36.0dip"
+		android:layout_height="38.0dip"
 		android:layout_centerHorizontal="true"
 		android:layout_gravity="center"
-		android:layout_marginRight="6.0dip"
-		android:visibility="invisible"
 		>
-	</ImageView>
+	</ImageButton>
 </LinearLayout>

@@ -9,14 +9,9 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.hag.bucketlst.NTaskEdit;
 import com.hag.bucketlst.R;
@@ -36,21 +31,21 @@ public class LiveTasks extends ListView {
 	public LiveTasks(Context context) {
 		super(context);
 		mContext = context;
-		//tbDbHelper = new TbDbAdapter(context);
+		tbDbHelper = new TbDbAdapter(context);
 		//fillData();
 	}
 
 	public LiveTasks(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
-		//tbDbHelper = new TbDbAdapter(context);
+		tbDbHelper = new TbDbAdapter(context);
 		//fillData();
 	}
 
 	public LiveTasks(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		mContext = (Activity) context;
-		//tbDbHelper = new TbDbAdapter(context);
+		tbDbHelper = new TbDbAdapter(context);
 		//fillData();
 	}
 
@@ -59,6 +54,7 @@ public class LiveTasks extends ListView {
 	
 		//setOnItemClickListener(this);
 		//setOnCreateContextMenuListener(this);
+		tbDbHelper.open();
         mUncheckedTaskCursor = tbDbHelper.fetchAllTask();
         ((Activity) mContext).startManagingCursor(mUncheckedTaskCursor);
 
@@ -75,6 +71,27 @@ public class LiveTasks extends ListView {
 		
 	}
 
+	private class mLiveTaskClickL implements OnItemClickListener 
+    {
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View view, int position,
+				long id) {
+	        Intent i = new Intent(mContext, NTaskEdit.class);
+	        i.putExtra(TbDbAdapter.KEY_TASK_LOCID, id);
+	        ((Activity) mContext).startActivityForResult(i, ACTIVITY_EDIT);			
+		}
+    }
+	
+    private class mLiveTaskCreateL implements OnCreateContextMenuListener
+    {
+
+		@Override
+		public void onCreateContextMenu(ContextMenu menu, View v,
+				ContextMenuInfo menuInfo) 
+		{
+				menu.add(0, DELETE_ID, 0, R.string.menu_delete);			
+		}
+	}
 
 	/**
 	@Override

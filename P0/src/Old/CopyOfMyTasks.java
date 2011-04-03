@@ -37,7 +37,7 @@ public class CopyOfMyTasks extends ListActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	setContentView(R.layout.old_main);
+    	setContentView(R.layout.my_tasks);
         //this.title.setText("bucketLST");
         mDbHelper = new TbDbAdapter(this);
         mDbHelper.open();

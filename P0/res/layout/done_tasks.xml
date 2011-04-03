@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/myTasks"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#AA000000"
+   >
+  	
+	<LinearLayout
+		android:id="@+id/taskViews"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+	    android:layout_weight="1.0"
+	>
+
+	    <ListView
+	    android:id="@+id/checkedList"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+		android:choiceMode="multipleChoice"
+	    />
+
+    </LinearLayout>
+    
+	<LinearLayout 
+	android:layout_height="wrap_content" 
+	android:layout_width="fill_parent"
+	android:layout_alignParentBottom="true"
+	style="@android:style/ButtonBar"
+	>
+	    <Button
+		android:id="@+id/b1"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:text="Add Task"
+		android:paddingTop="8dip"
+		android:layout_gravity="center|bottom"
+		/>
+     </LinearLayout>
+</LinearLayout>
