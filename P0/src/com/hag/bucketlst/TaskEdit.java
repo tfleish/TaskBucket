@@ -223,7 +223,57 @@ public class TaskEdit extends CustomWindow {
 	    finish();
     }
     
+    
     /**
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+		if (mRowId != null) {
+	        outState.putLong(LDBAdapter.KEY_ROWID, mRowId);
+		}
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //saveState();
+    }
+    
+    @Override
+    protected void onResume() {
+       super.onResume();
+       populateFields();
+    }
+    
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, 
+                                    Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+		genCatLst();
+		setupDialogue();
+		alert.show();
+    }
+    
+    private void saveState() {
+        String title = mTaskText.getText().toString();
+
+		if (mTaskText.length() != 0)
+		{
+	        if (mRowId == null) {
+	            long id = lDbHelper.insertTask(title, category, catItem, completed);
+	            if (id > 0) {
+	                mRowId = id;
+	            }
+	        } else {
+	            lDbHelper.updateTask(mRowId, title, category, catItem, completed);
+	        }
+		}
+	    setResult(RESULT_OK);
+	    finish();
+    }
+    
+
     private void populateCategories() 
     {
 		mCatText = (Spinner)findViewById(R.id.categoryGet);
@@ -279,6 +329,37 @@ public class TaskEdit extends CustomWindow {
 
         });
 	}
+	
+	    private void setupDialogue()
+    {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Set Bucket");
+    	builder.setPositiveButton("Edit Buckets", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	editCategory();
+            }
+        });
+    	builder.setSingleChoiceItems(categories, 0, new DialogInterface.OnClickListener() {
+    	    public void onClick(DialogInterface dialog, int item) {
+    	    	catItem = catIdLst[item];
+    	    	category = categories[item];
+    	    	mTaskCat.setText(category);
+    	        //Toast.makeText(getApplicationContext(), categories[item] + " " + item, Toast.LENGTH_SHORT).show();
+    	        dialog.dismiss();
+    	    }
+    	});
+    	alert = builder.create();
+    }
+    
+    	
+    private DialogInterface.OnClickListener mCategoryListner2 = 
+    	new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Toast.makeText(getApplicationContext(), Integer.toString(which), Toast.LENGTH_SHORT).show();
+			}
+	};
     **/
     
 }

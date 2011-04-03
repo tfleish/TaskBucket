@@ -328,6 +328,16 @@ public class TbDbAdapter {
 		return localSQLiteDatabase.update(DATABASE_TABLE_TASKS, localContentValues, str, null) > 0;
 	}
 	
+	public boolean updateTaskTitle(long rowId, String newTitle)
+	{
+		ContentValues localContentValues = new ContentValues();
+		localContentValues.put(KEY_TASK_TITLE, newTitle);
+		
+		SQLiteDatabase localSQLiteDatabase = getDB();
+		String str = KEY_TASK_LOCID + "=" + rowId;
+		return localSQLiteDatabase.update(DATABASE_TABLE_TASKS, localContentValues, str, null) > 0;
+	}
+	
     /**
      * Update the tasks using the details provided. The task to be updated is
      * specified using the rowId, and it is altered to use the title, category,
@@ -341,7 +351,6 @@ public class TbDbAdapter {
      */
     public boolean updateTask(long rowId, long webid, String title, long catId, String notes, long duedate, long priority, int checked, int mine, int deleted, int synced, int uptodate, int version) 
     {
-        ContentValues args = new ContentValues();
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TASK_TITLE, title);
         initialValues.put(KEY_TASK_NOTES, notes);
@@ -364,7 +373,26 @@ public class TbDbAdapter {
         
         String str = KEY_TASK_LOCID + "=" + rowId;
 
-        return db.update(DATABASE_TABLE_TASKS, args, str, null) > 0;
+        return db.update(DATABASE_TABLE_TASKS, initialValues, str, null) > 0;
+    }
+    
+    public boolean updateTaskImp(long rowId, String title, String notes, long duedate, long priority, int uptodate, int version) 
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_TASK_TITLE, title);
+        initialValues.put(KEY_TASK_NOTES, notes);
+        
+        Long localLong2 = Long.valueOf(duedate);
+        initialValues.put(KEY_TASK_DUE, localLong2);
+        Long localLong3 = Long.valueOf(priority);
+        initialValues.put(KEY_TASK_PRIORITY, localLong3);
+        
+        initialValues.put(KEY_TASK_ISUPTODATE, uptodate);
+        initialValues.put(KEY_TASK_VERSION, version);
+        
+        String str = KEY_TASK_LOCID + "=" + rowId;
+
+        return db.update(DATABASE_TABLE_TASKS, initialValues, str, null) > 0;
     }
 	  
     /**
@@ -738,6 +766,22 @@ public class TbDbAdapter {
 		return localCursor;
 	}
 
+	public Cursor fetchUserInfoById(long userId)
+	{
+		SQLiteDatabase localSQLiteDatabase = getDB();
+		String[] arrayOfStrings = new String[2];
+		
+		arrayOfStrings[0] = KEY_USER_NAME;
+		arrayOfStrings[1] = KEY_USER_DISPLAYNAME;
+		
+		String str = "(" + KEY_USER_ID + "=" + userId + ")";
+		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_USERS, arrayOfStrings, str, null, null, null, null, null);
+		if (localCursor != null){
+			localCursor.moveToFirst();
+		}
+		return localCursor;
+	}
+	
 	public long countUncheckedTasksByCategory(long catId)
 	{
 		SQLiteDatabase localSQLiteDatabase = getDB();

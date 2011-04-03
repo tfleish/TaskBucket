@@ -3,7 +3,6 @@ package com.hag.bucketlst;
 // test push from eclipse in testBranch?
 import customWindows.CustomList;
 import db.LDBAdapter;
-import db.TbDbAdapter;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class BucketMain extends CustomList {
+public class BucketMainBU extends CustomList {
     /** Called when the activity is first created. */
 	
     private static final int ACTIVITY_CREATE=0;
@@ -27,14 +26,14 @@ public class BucketMain extends CustomList {
     private static final int INSERT_ID = Menu.FIRST;
     private static final int DELETE_ID = Menu.FIRST + 1;
     
-    private TbDbAdapter mDbHelper;
+    private LDBAdapter mDbHelper;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
         this.title.setText("bucketLST");
-        mDbHelper = new TbDbAdapter(this);
+        mDbHelper = new LDBAdapter(this);
         mDbHelper.open();
         fillData();
         registerForContextMenu(getListView());
@@ -43,11 +42,11 @@ public class BucketMain extends CustomList {
     }
     
     private void fillData() {
-        Cursor taskCursor = mDbHelper.fetchAllTask();
+        Cursor taskCursor = mDbHelper.getAllList();
         startManagingCursor(taskCursor);
 
         // Create an array to specify the fields we want to display in the list (only TITLE)
-        String[] from = new String[]{TbDbAdapter.KEY_TASK_TITLE, TbDbAdapter.KEY_TASK_CATID};
+        String[] from = new String[]{LDBAdapter.KEY_TITLE, LDBAdapter.KEY_CATEGORY};
         
         // and an array of the fields we want to bind those fields to (in this case just text1)
         int[] to = new int[]{R.id.text1, R.id.cat};
@@ -97,19 +96,16 @@ public class BucketMain extends CustomList {
     
     private void createNote() {
         Intent i = new Intent(this, NTaskEdit.class);
-        startActivityForResult(i, ACTIVITY_CREATE);
+        //startActivityForResult(i, ACTIVITY_CREATE);
+        startActivity(i);
     }
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Intent i = new Intent(this, NTaskEdit.class);
+        Intent i = new Intent(this, TaskEdit.class);
         i.putExtra(LDBAdapter.KEY_ROWID, id);
         startActivityForResult(i, ACTIVITY_EDIT);
-    }
-    
-    protected void onCheck(long id, boolean isChecked){
-    	
     }
     
     @Override

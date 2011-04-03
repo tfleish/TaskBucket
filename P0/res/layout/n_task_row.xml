@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="4dip"
+    >
+    
+   	<ImageView
+		android:layout_gravity="left"
+		android:id="@+id/priColor"
+		android:layout_width="4.0dip"
+		android:layout_height="40.0dip"
+		android:layout_marginRight="6.0dip"
+		>
+	</ImageView>
+    
+	<CheckBox
+		android:id="@+id/taskCheck"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="3dip"
+        android:layout_marginLeft="3dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+	/>
+ 
+	 <TextView
+		android:id="@+id/text1" 
+		
+	    android:layout_width="fill_parent"
+    	android:layout_height="26dip"
+    	android:textSize="20dip"
+		
+		android:layout_toRightOf="@id/taskCheck"
+		android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignWithParentIfMissing="true"
+        
+        android:gravity="center_vertical"
+	    android:singleLine="true"
+	 />
+    
+	<TextView 
+		android:id="@+id/cat"
+		
+	    android:layout_width="fill_parent"
+	    android:layout_height="20dip"
+	    android:textSize="12dip"
+		
+		android:layout_toRightOf="@id/taskCheck"
+		android:layout_below="@id/text1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="bottom"
+        
+	    android:singleLine="true"
+	    android:ellipsize="marquee"
+	    android:text="Simple application that shows how to use RelativeLayout"
+	 />
+ 
+ </RelativeLayout>

@@ -74,7 +74,7 @@
 								>
 							</EditText>
 							<ImageButton
-								android:id="@+id/speakNow"
+								android:id="@+id/speakNowTitle"
 								android:layout_width="48.0dip"
 								android:layout_height="48.0dip"
 								android:src="@drawable/selector_speak_now"
@@ -279,7 +279,7 @@
 							android:gravity="center"
 							>
 							<ImageButton
-								android:id="@+id/speakNow"
+								android:id="@+id/speakNowNote"
 								android:layout_width="48.0dip"
 								android:layout_height="48.0dip"
 								android:src="@drawable/selector_speak_now"
@@ -320,7 +320,7 @@
 					style="@android:style/ButtonBar"
 					>
 					    <Button
-						android:id="@+id/taskDone"
+						android:id="@+id/taskDone1"
 						android:layout_width="fill_parent" 
 						android:layout_height="wrap_content" 
 						android:text="@string/taskComplete"
