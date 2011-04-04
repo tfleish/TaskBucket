@@ -49,14 +49,13 @@ public class DBAdapter {
 
 
     private static final String DATABASE_CREATE =
-
         "create table " + DATABASE_TABLE + "(" + 
-
         KEY_ROWID + " integer primary key autoincrement, " + 
-
-        KEY_LAT + KEY_LONG + KEY_ERROR + KEY_WIFI + KEY_GPS + " text not null );";
-
-
+        KEY_LAT + " text not null, " + 
+        KEY_LONG + " text not null, " + 
+        KEY_ERROR + " integer not null, " + 
+        KEY_WIFI + " text not null, " + 
+        KEY_GPS + " text not null );";
 
     private final Context context;  
 
@@ -160,7 +159,7 @@ public class DBAdapter {
 
     //---insert a location into the database---
 
-    public long insertLocation(double lat, double longi, double error, boolean wifi, boolean gps) 
+    public long insertLocation(String lat, String longi, String error, String wifi, String gps) 
 
     {
 
