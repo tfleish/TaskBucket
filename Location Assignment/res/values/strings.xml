@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, LocationCapture!</string>
+    <string name="app_name">FindMe</string>
+    <string name="findMe">Find me!</string>
+    <string name="wifiOn">Wifi</string>
+    <string name="gpsOn">GPS</string>
+</resources>
+
