@@ -36,29 +36,68 @@
 				    android:orientation="vertical"
 				    android:layout_width="fill_parent"
 				    android:layout_height="wrap_content"
-				    >    
-					<Button 
-						android:id="@+id/find_me"
+				    >
+    				<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+					    android:orientation="horizontal"
 					    android:layout_width="fill_parent"
 					    android:layout_height="wrap_content"
-					   	android:layout_alignParentBottom="true"
-					   	android:text="@string/findMe" 
-					   	/>
-					<CheckBox 
-						android:id="@+id/wifi_on"
+					    >    
+						<Button 
+							android:id="@+id/find_me"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						   	android:layout_alignParentBottom="true"
+						   	android:text="@string/findMe"
+						   	android:layout_weight="1" 
+						   	/>
+						<Button 
+							android:id="@+id/saveJava"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						   	android:layout_alignParentBottom="true"
+						   	android:text="Save (J-Loc)" 
+						   	android:layout_weight="1" 
+						   	/>
+						<Button 
+							android:id="@+id/saveAndroid"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						   	android:layout_alignParentBottom="true"
+						   	android:text="Save (A-LocA)" 
+						   	android:layout_weight="1" 
+						   	/>						   							   	
+					</LinearLayout>
+    				<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+					    android:orientation="horizontal"
 					    android:layout_width="fill_parent"
 					    android:layout_height="wrap_content"
-					   	android:layout_alignParentBottom="true"
-					   	android:text="@string/wifiOn" 
-					   	/>
-					<CheckBox 
-						android:id="@+id/gps_on"
-					    android:layout_width="fill_parent"
-					    android:layout_height="wrap_content"
-					   	android:layout_alignParentBottom="true"
-					   	android:text="@string/gpsOn" 
-					   	/>
+					    >  					
+						<CheckBox 
+							android:id="@+id/wifi_on"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						   	android:layout_alignParentBottom="true"
+						   	android:text="@string/wifiOn" 
+						   	android:layout_weight="1" 						 
+						   	/>
+						<CheckBox 
+							android:id="@+id/gps_on"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						   	android:layout_alignParentBottom="true"
+						   	android:text="@string/gpsOn" 
+						   	android:layout_weight="1" 
+						   	/>
+						<CheckBox 
+							android:id="@+id/criteria_true"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						   	android:layout_alignParentBottom="true"
+						   	android:text="Criteria" 
+						   	android:layout_weight="1" 
+						   	/>
 				   	</LinearLayout>
+					</LinearLayout>
 				   	
 			   	  	<ScrollView
 				   	  	android:layout_width="fill_parent"

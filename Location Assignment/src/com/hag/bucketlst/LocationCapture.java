@@ -1,16 +1,25 @@
 package com.hag.bucketlst;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.CharBuffer;
 import java.util.List;
 
-
 import android.app.TabActivity;
-import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,6 +52,7 @@ public class LocationCapture extends TabActivity  implements LocationListener {
 	Location location;
 	CheckBox wifiOn;
 	CheckBox gpsOn;
+	CheckBox enableOn;
 	long minTime = 5*60*1000;
 	float minDistance = 500;
 	
@@ -58,14 +68,19 @@ public class LocationCapture extends TabActivity  implements LocationListener {
         mTabHost.setCurrentTab(0);
         
         db = new DBAdapter(this);
-        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);	    
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);	
         
     	//Add find me button.
         output = (TextView) findViewById(R.id.output);
         Button findMe = (Button)findViewById(R.id.find_me);
         findMe.setOnClickListener(addAddListener);
+        Button saveJava = (Button)findViewById(R.id.saveJava);
+        saveJava.setOnClickListener(saveJavaListener);
+        Button saveAndroid = (Button)findViewById(R.id.saveAndroid);
+        saveAndroid.setOnClickListener(saveAndroidListener);
         wifiOn = (CheckBox)findViewById(R.id.wifi_on);
         gpsOn = (CheckBox)findViewById(R.id.gps_on);
+        enableOn = (CheckBox)findViewById(R.id.criteria_true);
 
 		// List all providers:
 		List<String> providers = locationManager.getAllProviders();
@@ -75,12 +90,12 @@ public class LocationCapture extends TabActivity  implements LocationListener {
 		}
 
 		Criteria criteria = new Criteria();
-		bestProvider = locationManager.getBestProvider(criteria, false);
+		bestProvider = locationManager.getBestProvider(criteria, true);
 		output.append("\n\nBEST Provider:\n");
 		printProvider(bestProvider);
 
 		output.append("\n\nLocations (starting with last known):");
-		Location location = locationManager.getLastKnownLocation(bestProvider);
+		location = locationManager.getLastKnownLocation(bestProvider);
 		if (location != null){
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
@@ -112,7 +127,9 @@ public class LocationCapture extends TabActivity  implements LocationListener {
 		
 		// Getting locationManager and reflecting changes over map if distance travel by
 		// user is greater than 500m from current location.
-		locationManager.requestLocationUpdates(bestProvider, 20000, 1, this);		
+		locationManager.requestLocationUpdates(bestProvider, 0, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20000, 1, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 1, this);
     }
     
     private OnClickListener addAddListener = new OnClickListener() {
@@ -121,19 +138,83 @@ public class LocationCapture extends TabActivity  implements LocationListener {
     		try {
     		    //LocationProvider locationProvider = LocationManager.NETWORK_PROVIDER;
     		    //locationManager.requestLocationUpdates(bestProvider, 0, 0, (LocationListener) getApplicationContext());
-    			location = locationManager.getLastKnownLocation(bestProvider);
+    			Criteria criteria = new Criteria();
+    			bestProvider = locationManager.getBestProvider(criteria, enableOn.isChecked());
+    			location = locationManager.getLastKnownLocation(bestProvider); 
     		    printLocation(location);
     			id = updateData();
+    			Location locationG = getGpsLoc();
+    			printLocation(locationG);
+    			updateData(locationG);
+    			Location locationN = getNetLoc();
+    			printLocation(locationN);
+    			updateData(locationN);    		
     		}
     		catch (Exception ex) {
-    			Context context = getApplicationContext();
     			CharSequence text = ex.toString() + "ID = " + id;
-    			int duration = Toast.LENGTH_LONG;
-    			Toast toast = Toast.makeText(context, text, duration);
-    			toast.show();
+    			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     		}
     	}
     };
+    
+    private OnClickListener saveJavaListener = new OnClickListener()
+    {
+    	public void onClick(View v) {
+    		try {
+    			SaveDataToFile(output.getText().toString());
+    		}
+    		catch (Exception ex) {
+    			CharSequence text = ex.toString();
+    			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    		}
+    	}
+    };
+    
+    private OnClickListener saveAndroidListener = new OnClickListener()
+    {
+    	public void onClick(View v) {
+    		try {
+    			SaveAndroidToFile2(output.getText().toString());
+    		}
+    		catch (Exception ex) {
+    			CharSequence text = ex.toString();
+    			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    		}
+    	}
+    };
+    
+    public Location getGpsLoc()
+    {
+    	boolean gps_enabled = false;
+    	 try
+    	 {
+    		 gps_enabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    	 }
+    	 catch(Exception ex)
+    	 {
+    		 
+    	 }
+    	 if(gps_enabled)
+    		return new Location(LocationManager.GPS_PROVIDER);
+		return null;
+    }
+    
+    public Location getNetLoc()
+    {
+    	boolean network_enabled = false;
+         try
+         {
+        	 network_enabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+         }
+         catch(Exception ex)
+         {
+        	 
+         }
+         if(network_enabled)
+     		return new Location(LocationManager.NETWORK_PROVIDER);
+ 		return null;
+    }
+    
     
     public long updateData()
     {
@@ -188,7 +269,12 @@ public class LocationCapture extends TabActivity  implements LocationListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		locationManager.requestLocationUpdates(bestProvider, 20000, 1, this);
+		Criteria criteria = new Criteria();
+		bestProvider = locationManager.getBestProvider(criteria, enableOn.isChecked());
+		location = locationManager.getLastKnownLocation(bestProvider);
+		locationManager.requestLocationUpdates(bestProvider, 0, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20000, 1, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 1, this);
 	}
 	
 	/** Stop the updates when Activity is paused */
@@ -200,19 +286,14 @@ public class LocationCapture extends TabActivity  implements LocationListener {
 	
 	public void onLocationChanged(Location location) {
 		printLocation(location);
-		if (location != null) {
-			updateData(location);
-			latitude = location.getLatitude();
-			longitude = location.getLongitude();
-			//p = new GeoPoint((int) latitude * 1000000, (int) longitude * 1000000);
-			//mc.animateTo(p);
-		}
+		updateData(location);
 	}
 	
 	public void onProviderDisabled(String provider) {
 		// let okProvider be bestProvider
 		// re-register for updates
 		output.append("\n\nProvider Disabled: " + provider);
+		updateData();
 	}
 	
 	public void onProviderEnabled(String provider) {
@@ -237,6 +318,127 @@ public class LocationCapture extends TabActivity  implements LocationListener {
 		else
 			output.append("\n\n" + location.toString());
 	}
+	
+	private boolean SaveDataToFile(String data) 
+	{ 
+		ObjectOutputStream  objectOut = null; 
+		try 
+		{ 
+			File root = new File("/sdcard/download/Loc"); 
+			//FileWriter file = new FileWriter("/sdcard/download/LocAdd.txt");
+			if(!root.exists()) 
+			{ 
+				root.mkdir();
+			} 
+			File file = new File(root, "LocAddJ.txt"); 
+			if(!file.exists()) 
+				file.createNewFile(); 
+			FileOutputStream stream = new FileOutputStream(file); 
+			objectOut = new ObjectOutputStream(new BufferedOutputStream(stream)); 
+			objectOut.writeObject(data); 
+			Toast.makeText(this, "Saved Log file in Loc", Toast.LENGTH_SHORT).show();
+			return true; 
+		} 
+		catch(IOException e) 
+		{ 
+			e.printStackTrace(); 
+			return false; 
+		} 
+		finally 
+		{ 
+			try 
+			{ 
+				if(objectOut != null) 
+				objectOut.close(); 
+			} 
+			catch(IOException ex) 
+			{ 
+				ex.printStackTrace(); 
+			} 
+		} 
+	}
+	
+	public void SaveAndroidToFile2(String sBody){
+	    try
+	    {
+	        File root = new File(Environment.getExternalStorageDirectory(), "LocAss");
+	        if (!root.exists()) {
+	            root.mkdirs();
+	        }
+	        File gpxfile = new File(root, "LocAssA2.txt");
+	        FileWriter writer = new FileWriter(gpxfile);
+	        writer.append(sBody);
+	        writer.flush();
+	        writer.close();
+	        Toast.makeText(this, "Saved Log file in LocAss", Toast.LENGTH_SHORT).show();
+	    }
+	    catch(IOException e)
+	    {
+	         e.printStackTrace();
+	    }
+	   }
+	
+	private boolean SaveAndroidToFile(String data) 
+	{ 		
+		
+        try { // catches IOException below        			
+			// ##### Write a file to the disk #####
+			/* We have to use the openFileOutput()-method 
+			 * the ActivityContext provides, to
+			 * protect your file from others and 
+			 * This is done for security-reasons. 
+			 * We chose MODE_WORLD_READABLE, because
+			 *  we have nothing to hide in our file */		
+			FileOutputStream fOut = openFileOutput("LocAddA.txt", 
+								MODE_WORLD_READABLE);
+			OutputStreamWriter osw = new OutputStreamWriter(fOut);	
+
+			// Write the string to the file
+			osw.write(data);
+			/* ensure that everything is 
+			 * really written out and close */
+			osw.flush();
+			osw.close(); 
+			return true;
+
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			return false;
+		}
+	} 
+	
+	private String readAndroidToFile(String data) 
+	{ 		
+		
+        try { // catches IOException below; 
+			
+			// ##### Read the file back in #####		
+			/* We have to use the openFileInput()-method 
+			 * the ActivityContext provides. 
+			 * Again for security reasons with
+			 * openFileInput(...) */
+			FileInputStream fIn = openFileInput("LocAdd.txt");
+			InputStreamReader isr = new InputStreamReader(fIn);
+			/* Prepare a char-Array that will 
+			 * hold the chars we read back in. */
+			CharBuffer inBuff = null;
+			String readString = "";
+			// Fill the Buffer with data from the file
+			isr.read(inBuff);
+			if (inBuff != null)
+			{
+				char[] inputBuffer = inBuff.array();
+				// Transform the chars to a String
+				readString = new String(inputBuffer);
+			}
+
+			return readString;
+
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			return " ";
+		}
+	} 
 	
 	/**
 	// User can zoom in/out using keys provided on keypad 
