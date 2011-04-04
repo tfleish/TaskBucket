@@ -2,10 +2,11 @@ package com.hag.bucketlst;
 
 import adapter.DoneTaskAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
-import android.widget.Toast;
 import db.TbDbAdapter;
 
 public class MyDoneTasks extends Activity{
@@ -39,12 +40,19 @@ public class MyDoneTasks extends Activity{
     
     private void updateDoneList()
     {
-    	mDoneCursor.requery();
+    	//mDoneCursor.requery();
+	    initCheckedData();
     }
 
     public TbDbAdapter getDbHelper()
     {
     	return mDbHelper;
+    }
+    
+    public void supressKeyboard()
+    {
+        InputMethodManager mgr = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(mDoneTaskList.getApplicationWindowToken(), 0);
     }
 
 	public void onCheck(long l, boolean isChecked)
@@ -63,6 +71,7 @@ public class MyDoneTasks extends Activity{
     @Override
     protected void onResume() {
        super.onResume();
-	   updateDoneList();
+	   updateDoneList();      
+       supressKeyboard();
     }
 }

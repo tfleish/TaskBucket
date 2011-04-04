@@ -82,11 +82,6 @@ public class MyTasks extends Activity{
         mTasksAdapter = new LiveTaskAdapter(this, R.layout.n_task_row, mTaskCursor);
         mLiveTaskList.setAdapter(mTasksAdapter);
     }
-    
-    private void updateLiveList()
-    {
-    	mTaskCursor.requery();
-    }
 
     public TbDbAdapter getDbHelper()
     {
@@ -194,6 +189,13 @@ public class MyTasks extends Activity{
 				menu.add(0, DELETE_ID, 0, R.string.menu_delete);			
 		}
 	}
+    
+    
+    private void updateLiveList()
+    {
+    	//mTaskCursor.requery();
+	    initUnCheckedData();
+    }
 
 	public void onCheck(long l, boolean isChecked)
 	{
