@@ -1,11 +1,5 @@
 package Old;
 
-import com.hag.bucketlst.NTaskEdit;
-import com.hag.bucketlst.R;
-import com.hag.bucketlst.R.id;
-import com.hag.bucketlst.R.layout;
-import com.hag.bucketlst.R.string;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +14,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.hag.bucketlst.NTaskEdit;
+import com.hag.bucketlst.R;
+
 import db.LDBAdapter;
 import db.TbDbAdapter;
 

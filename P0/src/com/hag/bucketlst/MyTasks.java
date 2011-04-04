@@ -1,10 +1,15 @@
 package com.hag.bucketlst;
 
+import java.util.List;
+
 import adapter.LiveTaskAdapter;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +18,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import db.TbDbAdapter;
@@ -23,12 +28,17 @@ import db.TbDbAdapter;
 public class MyTasks extends Activity{
   /** Called when the activity is first created. */
 	
-    private static final int ACTIVITY_CREATE=0;
-    private static final int ACTIVITY_EDIT=1;
+	private static final int ACTIVITY_VOICE_RECOGNITION_TASK = 1001;
+    private static final int ACTIVITY_CREATE = 0;
+    private static final int ACTIVITY_EDIT = 1;
     
     private static final int INSERT_ID = Menu.FIRST;
     private static final int DELETE_ID = Menu.FIRST + 1;
+    private static final int CHECKED_ID = Menu.FIRST + 2;
+    private static final int EDIT_ID = Menu.FIRST + 3;
     
+    
+    private EditText mTaskTitle;
     private ListView mLiveTaskList;
     private TbDbAdapter mDbHelper;
     private Cursor mTaskCursor;
@@ -42,37 +52,34 @@ public class MyTasks extends Activity{
         mDbHelper = new TbDbAdapter(this);
         mDbHelper.open();
         
+        mTaskTitle = (EditText)findViewById(R.id.titleGet);
         mLiveTaskList = (ListView)findViewById(R.id.liveList);
         initUnCheckedData();
         
         //registerForContextMenu(getListView());
-    	Button b1 = (Button) findViewById(R.id.b1);
-    	b1.setOnClickListener(mAddListener);
+        ImageButton mTaskAdd = (ImageButton) findViewById(R.id.mainTaskAdd);
+        mTaskAdd.setOnClickListener(mAddListener);
+        ImageButton mTaskSpeak = (ImageButton)findViewById(R.id.speakNowTitle);
+        // Check to see if a recognition activity is present
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        if (activities.size() != 0) {
+        	mTaskSpeak.setOnClickListener(mAutoTitle);
+        } else {
+        	mTaskSpeak.setEnabled(false);
+        }
     }
     
-    private void initUnCheckedData() {
-    	
+    private void initUnCheckedData() 
+    {    	
         mLiveTaskList.setOnItemClickListener(new mLiveTaskClickL());
         mLiveTaskList.setOnCreateContextMenuListener(new mLiveTaskCreateL());
         
-        mTaskCursor = mDbHelper.fetchAllTask();
+        mTaskCursor = mDbHelper.fetchAllUnCheckedTasks();
         startManagingCursor(mTaskCursor);
         
         mTasksAdapter = new LiveTaskAdapter(this, R.layout.n_task_row, mTaskCursor);
-        
-        /**
-
-        // Create an array to specify the fields we want to display in the list (only TITLE)
-        String[] from = new String[]{TbDbAdapter.KEY_TASK_TITLE, TbDbAdapter.KEY_TASK_CATID};
-        
-        // and an array of the fields we want to bind those fields to (in this case just text1)
-        int[] to = new int[]{R.id.text1, R.id.cat};
-
-        // Now create a simple cursor adapter and set it to display
-        SimpleCursorAdapter notes = 
-        	    new SimpleCursorAdapter(this, R.layout.n_task_row, mTaskCursor, from, to);
-        	    
-      	**/
         mLiveTaskList.setAdapter(mTasksAdapter);
     }
     
@@ -106,12 +113,24 @@ public class MyTasks extends Activity{
 
     @Override
 	public boolean onContextItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		switch(item.getItemId())
+		{
     	case DELETE_ID:
-    		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    		info = (AdapterContextMenuInfo) item.getMenuInfo();
 	        mDbHelper.deleteTask(info.id);
 	        updateLiveList();
 	        return true;
+    	case EDIT_ID:
+    		info = (AdapterContextMenuInfo) item.getMenuInfo();
+	        Intent i = new Intent(getApplicationContext(), NTaskEdit.class);
+	        i.putExtra(TbDbAdapter.KEY_TASK_LOCID, info.id);
+	        startActivityForResult(i, ACTIVITY_EDIT);	
+	        return true;
+    	case CHECKED_ID:
+    		info = (AdapterContextMenuInfo) item.getMenuInfo();
+    		onCheck(info.id, true);
+	        return true;	        	        
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -121,7 +140,22 @@ public class MyTasks extends Activity{
     protected void onActivityResult(int requestCode, int resultCode, 
                                     Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        updateLiveList();
+        if ((requestCode == ACTIVITY_VOICE_RECOGNITION_TASK) && (resultCode == RESULT_OK))
+        {
+          String str = (String)intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
+          String strCon = mTaskTitle.getText() + str;
+          mTaskTitle.setText(strCon);
+        }
+        
+        if ((requestCode == ACTIVITY_CREATE) && (resultCode == RESULT_OK))
+        {
+            updateLiveList();
+        }
+        
+        if ((requestCode == ACTIVITY_EDIT) && (resultCode == RESULT_OK))
+        {
+            updateLiveList();
+        }
     }
     
     private void createNote() {
@@ -155,12 +189,39 @@ public class MyTasks extends Activity{
 		public void onCreateContextMenu(ContextMenu menu, View v,
 				ContextMenuInfo menuInfo) 
 		{
+				menu.add(0, EDIT_ID, 0, R.string.menu_edit);
+				menu.add(0, CHECKED_ID, 0, R.string.menu_check);
 				menu.add(0, DELETE_ID, 0, R.string.menu_delete);			
 		}
 	}
 
-	public void onCheck(long l, boolean isChecked) {
-		Toast.makeText(this, Long.toString(l), Toast.LENGTH_SHORT).show();		
+	public void onCheck(long l, boolean isChecked)
+	{
+		int checkedInt = (isChecked) ? 1 : 0;
+	    mDbHelper.updateIsChecked(l, checkedInt);
+	    updateLiveList();
 	}
+	
+	private OnClickListener mAutoTitle = new OnClickListener()
+    {
+    	public void onClick(View v)
+    	{
+    		startVoiceRecognitionTitle();
+    	}
+    };
+	
+    private void startVoiceRecognitionTitle()
+    {
+		Intent localIntent1 = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		localIntent1.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		localIntent1.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak your Task");
+		startActivityForResult(localIntent1, ACTIVITY_VOICE_RECOGNITION_TASK);
+    }
         
+    
+    @Override
+    protected void onResume() {
+       super.onResume();
+	   updateLiveList();
+    }
 }

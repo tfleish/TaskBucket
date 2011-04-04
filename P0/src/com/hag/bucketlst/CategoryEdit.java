@@ -1,8 +1,6 @@
 package com.hag.bucketlst;
 
 // test push from eclipse in testBranch?
-import customWindows.CustomList;
-import db.CDBAdapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,6 +15,8 @@ import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import customWindows.CustomList;
+import db.CDBAdapter;
 
 public class CategoryEdit extends CustomList {
     /** Called when the activity is first created. */

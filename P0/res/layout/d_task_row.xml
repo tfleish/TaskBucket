@@ -8,7 +8,6 @@
     >
     
    	<ImageView
-   		android:src="@drawable/red_grad_bg"
 		android:layout_gravity="left"
 		android:id="@+id/priColor"
 		android:layout_width="4.0dip"
@@ -17,6 +16,7 @@
 		>
 	</ImageView>
 	
+	<!-- 
 	<ImageButton
 		android:id="@+id/taskCheck"
 		android:background="@drawable/btn_check_on_grayed"
@@ -28,13 +28,13 @@
         android:layout_marginLeft="3dip"
 		>
 	</ImageButton>
-    
-    <!-- 
+	-->    
+	
 	<CheckBox
 		android:id="@+id/taskCheck"
         android:layout_height="fill_parent"
         android:layout_width="wrap_content"
-		android:background="@drawable/checkbox_background"
+		android:background="@drawable/btn_check_on_grayed"
         android:layout_marginRight="3dip"
         android:layout_marginLeft="3dip"
         android:focusable="false"
@@ -42,7 +42,7 @@
         android:checked="true"
         android:button="@drawable/selector_checkbox"
 	/>
-	-->
+
  	<LinearLayout
  		android:orientation="vertical"
 		android:layout_width="0.0dip"

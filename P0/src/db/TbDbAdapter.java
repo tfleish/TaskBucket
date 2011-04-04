@@ -460,7 +460,8 @@ public class TbDbAdapter {
 		arrayOfStrings[10] = KEY_TASK_ISUPTODATE;
 		arrayOfStrings[11] = KEY_TASK_VERSION;
 		
-		String str = KEY_TASK_ISCHECKED + "='1' AND " + KEY_TASK_ISDELETED + "='0'";
+		String str = "(" + KEY_TASK_ISCHECKED + "='1') AND (" + KEY_TASK_ISMINE + "='1')";
+		//String str = KEY_TASK_ISCHECKED + "='1' AND " + KEY_TASK_ISDELETED + "='0'";
 		//String str = "is_checked='1' AND is_deleted='0'"
 		return localSQLiteDatabase.query(DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
 	}
@@ -484,7 +485,7 @@ public class TbDbAdapter {
 		arrayOfStrings[11] = KEY_TASK_ISUPTODATE;
 		arrayOfStrings[12] = KEY_TASK_VERSION;
 		
-		String str = KEY_TASK_ISCHECKED + "='0'";
+		String str = "(" + KEY_TASK_ISCHECKED + "='0') AND (" + KEY_TASK_ISMINE + "='1')";
 		return localSQLiteDatabase.query(DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
 	}
 	
@@ -806,7 +807,7 @@ public class TbDbAdapter {
 	public long countCollaboratorsByCategory(long catId)
 	{
 		SQLiteDatabase localSQLiteDatabase = getDB();
-		String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_CAT_USER + " WHERE (" + KEY_CAT_ID + "=" + catId + ");";
+		String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_CAT_USER + " WHERE (" + KEY_CATUSER_CATID + "=" + catId + ");";
 		SQLiteStatement localSQLiteStatement = localSQLiteDatabase.compileStatement(str);
 		long l = localSQLiteStatement.simpleQueryForLong();
 		localSQLiteStatement.close();
@@ -816,8 +817,7 @@ public class TbDbAdapter {
 	public long countCollaboratorsByTask(long locId)
 	{
 		SQLiteDatabase localSQLiteDatabase = getDB();
-		//String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_TASK_USER + " WHERE (" + KEY_TASK_LOCID + "=" + locId + ")";
-		String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_TASK_USER;
+		String str = "SELECT COUNT(*) FROM " + DATABASE_TABLE_TASK_USER + " WHERE (" + KEY_TASKUSER_TASKID + "=" + locId + ");";
 		SQLiteStatement localSQLiteStatement = localSQLiteDatabase.compileStatement(str);
 		long l = localSQLiteStatement.simpleQueryForLong();
 		localSQLiteStatement.close();

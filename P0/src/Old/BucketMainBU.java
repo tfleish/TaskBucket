@@ -1,14 +1,6 @@
 package Old;
 
 // test push from eclipse in testBranch?
-import com.hag.bucketlst.NTaskEdit;
-import com.hag.bucketlst.R;
-import com.hag.bucketlst.R.id;
-import com.hag.bucketlst.R.layout;
-import com.hag.bucketlst.R.string;
-
-import customWindows.CustomList;
-import db.LDBAdapter;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,6 +14,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.hag.bucketlst.NTaskEdit;
+import com.hag.bucketlst.R;
+
+import customWindows.CustomList;
+import db.LDBAdapter;
 
 public class BucketMainBU extends CustomList {
     /** Called when the activity is first created. */

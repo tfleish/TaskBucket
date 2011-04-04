@@ -1,13 +1,5 @@
 package Old;
 
-import com.hag.bucketlst.CategoryEdit;
-import com.hag.bucketlst.R;
-import com.hag.bucketlst.R.id;
-import com.hag.bucketlst.R.layout;
-
-import customWindows.CustomWindow;
-import db.CDBAdapter;
-import db.LDBAdapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +11,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.hag.bucketlst.CategoryEdit;
+import com.hag.bucketlst.R;
+
+import customWindows.CustomWindow;
+import db.CDBAdapter;
+import db.LDBAdapter;
 
 public class TaskEdit extends CustomWindow {
 	

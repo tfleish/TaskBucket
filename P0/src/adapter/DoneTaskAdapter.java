@@ -5,34 +5,37 @@ import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.hag.bucketlst.MyTasks;
+import com.hag.bucketlst.MyDoneTasks;
 import com.hag.bucketlst.R;
 
 import db.TbDbAdapter;
 
-public class LiveTaskAdapter extends ResourceCursorAdapter 
+public class DoneTaskAdapter extends ResourceCursorAdapter 
 {
-	private MyTasks mContext;
+	private MyDoneTasks mContext;
 	private TbDbAdapter mDbHelper;
 	
-	public LiveTaskAdapter(Context context, int layout, Cursor c) {
+	public DoneTaskAdapter(Context context, int layout, Cursor c) {
 		super(context, layout, c);
-		mContext = (MyTasks) context;
+		mContext = (MyDoneTasks) context;
 		mDbHelper = mContext.getDbHelper();
 	}
 	
-	public LiveTaskAdapter(Context context, int layout, Cursor c,
+	public DoneTaskAdapter(Context context, int layout, Cursor c,
 			boolean autoRequery) {
 		super(context, layout, c, autoRequery);
-		mContext = (MyTasks)context;
+		mContext = (MyDoneTasks)context;
 		mDbHelper = mContext.getDbHelper();
 	}
 
@@ -43,10 +46,11 @@ public class LiveTaskAdapter extends ResourceCursorAdapter
 		TextView categoryV = (TextView)view.findViewById(R.id.cat);
 		CheckBox checkerV = (CheckBox)view.findViewById(R.id.taskCheck);
 		ImageView priorityV = (ImageView)view.findViewById(R.id.priColor);
-		ImageView collabsV = (ImageView)view.findViewById(R.id.plusOne);	
+		ImageButton delV = (ImageButton)view.findViewById(R.id.delButton);	
 		
 		String titleC = cursor.getString(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_TITLE));
 		titleV.setText(titleC);
+		titleV.setPaintFlags(titleV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		long catItem = cursor.getLong(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_CATID));
 		String categoryC = mDbHelper.fetchCategory(catItem).getString(0);
 		long mDate = cursor.getLong(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_DUE));
@@ -55,6 +59,7 @@ public class LiveTaskAdapter extends ResourceCursorAdapter
     		categoryC = sDf + " | " + categoryC;
     	}    	
 		categoryV.setText(categoryC);
+		categoryV.setPaintFlags(categoryV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		int priRC = cursor.getInt(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_PRIORITY));
 		int isChecked = cursor.getInt(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_ISCHECKED));
 		boolean checkState = (isChecked == 1) ? true : false;
@@ -62,16 +67,14 @@ public class LiveTaskAdapter extends ResourceCursorAdapter
 		priorityV.setBackgroundResource(priRes);
 		checkerV.setChecked(checkState);
 		long locId = cursor.getLong(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_LOCID));
-		long collabCount = mDbHelper.countCollaboratorsByTask(locId);
-		if(collabCount > 1){
-			collabsV.setVisibility(View.VISIBLE);
-		}
 		checkerV.setTag(locId);
-		checkerV.setOnCheckedChangeListener(new mLiveTaskCheckL());
+		delV.setTag(locId);
+		delV.setOnClickListener(new mDoneTaskDelL());
+		checkerV.setOnCheckedChangeListener(new mDoneTaskCheckL());
 	}
 	
     
-    private class mLiveTaskCheckL implements OnCheckedChangeListener
+    private class mDoneTaskCheckL implements OnCheckedChangeListener
     {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -79,5 +82,14 @@ public class LiveTaskAdapter extends ResourceCursorAdapter
 		    mContext.onCheck(l, isChecked);
 		}
 
+	}
+    
+    private class mDoneTaskDelL implements OnClickListener
+    {
+		@Override
+		public void onClick(View v) {
+		    long l = ((Long)v.getTag()).longValue();
+		    mContext.onClick(l);
+		}
 	}
 }

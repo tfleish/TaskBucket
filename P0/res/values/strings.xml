@@ -8,6 +8,8 @@
     <string name="add">Done</string>
     <string name="catSelect">Select a Bucket</string>
    	<string name="menu_delete">Delete Task</string>
+   	<string name="menu_edit">Edit Task</string>
+   	<string name="menu_check">Mark as Done</string>
     <string name="menu_insert">Add Task</string>
     <string name="cat_delete">Delete Bucket</string>
     <string name="priSelect">Set Priority</string>

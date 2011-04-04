@@ -59,20 +59,4 @@
 	    />	   
 
     </LinearLayout>
-    
-	<LinearLayout 
-	android:layout_height="wrap_content" 
-	android:layout_width="fill_parent"
-	android:layout_alignParentBottom="true"
-	style="@android:style/ButtonBar"
-	>
-	    <Button
-		android:id="@+id/b1"
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content" 
-		android:text="Add Task"
-		android:paddingTop="8dip"
-		android:layout_gravity="center|bottom"
-		/>
-     </LinearLayout>
 </LinearLayout>
