@@ -2,36 +2,24 @@ package com.hag.bucketlst;
 
 import java.util.List;
 
+
 import android.app.TabActivity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-
-public class LocationCapture extends TabActivity implements LocationListener {
+public class LocationCapture extends TabActivity  implements LocationListener {
     /** Called when the activity is first created. */
 	
 	private static final String[] S = { "Out of Service",
@@ -41,12 +29,13 @@ public class LocationCapture extends TabActivity implements LocationListener {
 	private LocationManager locationManager;
 	private String bestProvider;
 	
-	EditText txted = null;	
+	/**
 	Button btnSimple = null;	
 	MapView gMapView = null;	
 	MapController mc = null;	
 	Drawable defaultMarker	= null;	
 	GeoPoint p = null;	
+	**/
 	double latitude	= 18.9599990845; 
 	double longitude = 72.819999694;
 	
@@ -69,9 +58,10 @@ public class LocationCapture extends TabActivity implements LocationListener {
         mTabHost.setCurrentTab(0);
         
         db = new DBAdapter(this);
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);	    
+        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);	    
         
     	//Add find me button.
+        output = (TextView) findViewById(R.id.output);
         Button findMe = (Button)findViewById(R.id.find_me);
         findMe.setOnClickListener(addAddListener);
         wifiOn = (CheckBox)findViewById(R.id.wifi_on);
@@ -79,6 +69,7 @@ public class LocationCapture extends TabActivity implements LocationListener {
 
 		// List all providers:
 		List<String> providers = locationManager.getAllProviders();
+
 		for (String provider : providers) {
 			printProvider(provider);
 		}
@@ -90,10 +81,14 @@ public class LocationCapture extends TabActivity implements LocationListener {
 
 		output.append("\n\nLocations (starting with last known):");
 		Location location = locationManager.getLastKnownLocation(bestProvider);
-		latitude = location.getLatitude();
-		longitude = location.getLongitude();
+		if (location != null){
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+		}
 		printLocation(location);
 		
+
+		/**
 		gMapView = (MapView) findViewById(R.id.myGMap);
 		p = new GeoPoint((int) latitude * 1000000, (int) longitude * 1000000);
 		gMapView.setSatellite(false);
@@ -113,6 +108,7 @@ public class LocationCapture extends TabActivity implements LocationListener {
 		
 		gMapView.setBuiltInZoomControls(true);
 		gMapView.displayZoomControls(true);
+		**/
 		
 		// Getting locationManager and reflecting changes over map if distance travel by
 		// user is greater than 500m from current location.
@@ -124,7 +120,9 @@ public class LocationCapture extends TabActivity implements LocationListener {
     		long id = 0;
     		try {
     		    //LocationProvider locationProvider = LocationManager.NETWORK_PROVIDER;
-    		    //locationManager.requestLocationUpdates(locationProvider, minTime, minDistance, this);
+    		    //locationManager.requestLocationUpdates(bestProvider, 0, 0, (LocationListener) getApplicationContext());
+    			location = locationManager.getLastKnownLocation(bestProvider);
+    		    printLocation(location);
     			id = updateData();
     		}
     		catch (Exception ex) {
@@ -139,31 +137,53 @@ public class LocationCapture extends TabActivity implements LocationListener {
     
     public long updateData()
     {
-	    latitude = location.getLatitude();
-	    longitude = location.getLongitude();
-	    double error = location.getAccuracy();
+    	double locallatitude;
+    	double locallongitude;
+    	double error;
+    	if (location != null){
+    	    locallatitude = location.getLatitude();
+    	    latitude = locallatitude;
+    	    locallongitude = location.getLongitude();
+    	    longitude = locallongitude;
+    	    error = location.getAccuracy();	
+    	} else {
+    		locallatitude = 0;
+    		locallongitude = 0;
+    		error = 0;
+    	}
 	    boolean wifi = wifiOn.isChecked();
 	    boolean gps = gpsOn.isChecked();
 	    db.open();        
-    	long id = db.insertLocation(Double.toString(latitude), Double.toString(longitude), Double.toString(error),
-    								Boolean.toString(wifi), Boolean.toString(gps));
+    	long id = db.insertLocation(Double.toString(locallatitude), Double.toString(locallongitude), Double.toString(error),
+				Boolean.toString(wifi), Boolean.toString(gps));
         db.close();
         return id;
     }
     
     public void updateData(Location location)
     {
-	    latitude = location.getLatitude();
-	    longitude = location.getLongitude();
-	    double error = location.getAccuracy();
+    	double locallatitude;
+    	double locallongitude;
+    	double error;
+    	if (location != null){
+    	    locallatitude = location.getLatitude();
+    	    latitude = locallatitude;
+    	    locallongitude = location.getLongitude();
+    	    longitude = locallongitude;
+    	    error = location.getAccuracy();	
+    	} else {
+    		locallatitude = 0;
+    		locallongitude = 0;
+    		error = 0;
+    	}
 	    boolean wifi = wifiOn.isChecked();
 	    boolean gps = gpsOn.isChecked();
 	    db.open();        
-    	db.insertLocation(Double.toString(latitude), Double.toString(longitude), Double.toString(error),
+    	db.insertLocation(Double.toString(locallatitude), Double.toString(locallongitude), Double.toString(error),
 				Boolean.toString(wifi), Boolean.toString(gps));
         db.close();
     }
-    
+
 	/** Register for the updates when Activity is in foreground */
 	@Override
 	protected void onResume() {
@@ -184,8 +204,8 @@ public class LocationCapture extends TabActivity implements LocationListener {
 			updateData(location);
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
-			p = new GeoPoint((int) latitude * 1000000, (int) longitude * 1000000);
-			mc.animateTo(p);
+			//p = new GeoPoint((int) latitude * 1000000, (int) longitude * 1000000);
+			//mc.animateTo(p);
 		}
 	}
 	
@@ -206,7 +226,20 @@ public class LocationCapture extends TabActivity implements LocationListener {
 				+ S[status] + ", Extras=" + extras);
 	}
 	
-	/* User can zoom in/out using keys provided on keypad */
+	private void printProvider(String provider) {
+		LocationProvider info = locationManager.getProvider(provider);
+		output.append(info.toString() + "\n\n");
+	}
+	
+	private void printLocation(Location location) {
+		if (location == null)
+			output.append("\nLocation[unknown]\n\n");
+		else
+			output.append("\n\n" + location.toString());
+	}
+	
+	/**
+	// User can zoom in/out using keys provided on keypad 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_I) {
 			gMapView.getController().setZoom(gMapView.getZoomLevel() + 1);
@@ -224,19 +257,7 @@ public class LocationCapture extends TabActivity implements LocationListener {
 		return false;
 	}
 	
-	private void printProvider(String provider) {
-		LocationProvider info = locationManager.getProvider(provider);
-		output.append(info.toString() + "\n\n");
-	}
-	
-	private void printLocation(Location location) {
-		if (location == null)
-			output.append("\nLocation[unknown]\n\n");
-		else
-			output.append("\n\n" + location.toString());
-	}
-	
-	/* Class overload draw method which actually plot a marker,text etc. on Map */
+	// Class overload draw method which actually plot a marker,text etc. on Map 
 	protected class MyLocationOverlay extends com.google.android.maps.Overlay {
 		
 		@Override
@@ -259,4 +280,6 @@ public class LocationCapture extends TabActivity implements LocationListener {
 			return true;
 		}
 	}
+	
+	**/
 }

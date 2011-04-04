@@ -18,7 +18,6 @@ public final class R {
         public static final int find_me=0x7f050001;
         public static final int gps_on=0x7f050003;
         public static final int mapView=0x7f050005;
-        public static final int myGMap=0x7f050006;
         public static final int output=0x7f050004;
         public static final int textView=0x7f050000;
         public static final int wifi_on=0x7f050002;
