@@ -16,6 +16,19 @@
 		>
 	</ImageView>
     
+	<ImageButton
+		android:id="@+id/taskCheck"
+        android:layout_height="wrap_content"
+        android:layout_width="33dip"
+		android:background="@drawable/selector_unchecked"
+        android:layout_marginRight="3dip"
+        android:layout_marginLeft="3dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+		>
+	</ImageButton>       
+    
+    <!--
 	<CheckBox
 		android:id="@+id/taskCheck"
         android:layout_height="fill_parent"
@@ -27,6 +40,8 @@
         android:focusableInTouchMode="false"
         android:button="@drawable/selector_checkbox"
 	/>
+	-->
+	
  	<LinearLayout
  		android:orientation="vertical"
 		android:layout_width="0.0dip"

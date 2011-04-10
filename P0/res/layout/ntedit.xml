@@ -82,7 +82,7 @@
 								>
 							</ImageButton>
 						</LinearLayout>
-									<View
+						<View
 							android:background="@drawable/line"
 							android:padding="5.0dip"
 							android:layout_width="fill_parent"
