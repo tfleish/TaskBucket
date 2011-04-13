@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="55dip"
+    android:padding="6dip"
+    >
+
+	<CheckBox
+		android:id="@+id/collabCheck"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+		android:background="@drawable/btn_check_label_background"
+        android:layout_marginRight="3dip"
+        android:layout_marginLeft="3dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:checked="false"
+        android:button="@drawable/selector_checkbox"
+	/>
+	
+ 	<LinearLayout
+ 		android:orientation="vertical"
+		android:layout_width="0.0dip"
+		android:layout_height="fill_parent"
+		android:layout_weight="1.0"
+		>
+		 <TextView
+			android:id="@+id/CollabDispName" 			
+			android:textStyle="bold"
+			android:textColor="#FFFFFFFF"
+			android:gravity="left"
+			android:layout_width="fill_parent"
+			android:layout_height="0.0dip"
+			android:singleLine="true"
+			android:layout_weight="1.0"
+		 />
+		<TextView 
+			android:id="@+id/CollabUserName"
+			android:textColor="#FFFFFFFF"
+			android:ellipsize="marquee"
+			android:layout_width="fill_parent"
+			android:layout_height="0.0dip"
+			android:singleLine="true"
+			android:layout_weight="1.0"
+		 />
+	</LinearLayout>
+
+	<ImageButton
+		android:id="@+id/collabDelete"
+		android:background="@drawable/delete_category"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:layout_width="32.0dip"
+		android:layout_height="34.0dip"
+		android:text="Remove"
+		android:padding="6.0dip"
+		android:layout_margin="6.0dip"
+		>
+	</ImageButton>
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+    <LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="5.0dip"
+	    >
+	    
+		<ImageButton
+			android:id="@+id/collabAdd"
+			android:background="@drawable/selector_add"
+			android:layout_width="55.0dip"
+			android:layout_height="41.500004dip"
+			android:layout_marginLeft="5.0dip"
+			android:layout_marginTop="1.0dip"
+			android:scaleType="center"
+			>
+		</ImageButton>		
+		<EditText
+			android:id="@+id/collabUnameGet"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0"
+			android:hint="Add a bucket"
+			>
+		</EditText>	
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    >
+	    
+		<ListView 
+		    android:id="@+id/collabList"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		/>
+		
+	</LinearLayout>
+</LinearLayout>

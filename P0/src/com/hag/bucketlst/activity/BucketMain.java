@@ -30,7 +30,7 @@ public class BucketMain extends CustomTab {
 
         // Do the same for the other tabs
         intent = new Intent().setClass(this, MyDoneTasks.class);
-        spec = tabHost.newTabSpec("Checked Tasks").setIndicator("Done Tasks").setContent(intent);
+        spec = tabHost.newTabSpec("Checked Tasks").setIndicator("My Done Tasks").setContent(intent);
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, NCategoryView.class);

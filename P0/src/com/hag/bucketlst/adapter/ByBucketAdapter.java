@@ -5,14 +5,13 @@ import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.hag.bucketlst.R;
 import com.hag.bucketlst.activity.ByBuckets;
@@ -42,9 +41,11 @@ public class ByBucketAdapter extends ResourceCursorAdapter
 	{
 		TextView titleV = (TextView)view.findViewById(R.id.text1);
 		TextView categoryV = (TextView)view.findViewById(R.id.cat);
-		CheckBox checkerV = (CheckBox)view.findViewById(R.id.taskCheck);
+		ImageButton checkerV = (ImageButton)view.findViewById(R.id.taskCheck);
+		ImageButton unCheckerV = (ImageButton)view.findViewById(R.id.taskUnCheck);
 		ImageView priorityV = (ImageView)view.findViewById(R.id.priColor);
 		ImageView collabsV = (ImageView)view.findViewById(R.id.plusOne);	
+		ImageButton delV = (ImageButton)view.findViewById(R.id.delButton);
 		
 		String titleC = cursor.getString(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_TITLE));
 		titleV.setText(titleC);
@@ -63,23 +64,40 @@ public class ByBucketAdapter extends ResourceCursorAdapter
 		priorityV.setBackgroundResource(priRes);
 		long locId = cursor.getLong(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_LOCID));
 		long collabCount = mDbHelper.countCollaboratorsByTask(locId);
-		if(collabCount > 1){
-			collabsV.setVisibility(View.VISIBLE);
+		if(checkState){
+			collabsV.setVisibility(View.GONE);
+			unCheckerV.setVisibility(View.GONE);
+			titleV.setPaintFlags(titleV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+			categoryV.setPaintFlags(categoryV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+			delV.setVisibility(View.VISIBLE);
+			delV.setTag(locId);
+			delV.setOnClickListener(new mTaskButtonL());
+			checkerV.setTag(locId);			
+			checkerV.setVisibility(View.VISIBLE);
+			checkerV.setOnClickListener(new mTaskButtonL());
+			checkerV.setFocusable(false);
+			checkerV.setFocusableInTouchMode(false);
+		} else {		
+			delV.setVisibility(View.GONE);
+			checkerV.setVisibility(View.GONE);
+			if(collabCount > 1){
+				collabsV.setVisibility(View.VISIBLE);
+			}
+			unCheckerV.setTag(locId);
+			unCheckerV.setVisibility(View.VISIBLE);
+			unCheckerV.setOnClickListener(new mTaskButtonL());
+			unCheckerV.setFocusable(false);
+			unCheckerV.setFocusableInTouchMode(false);	
 		}
-		checkerV.setTag(locId);
-		checkerV.setOnCheckedChangeListener(new mLiveTaskCheckL());
-		checkerV.setChecked(checkState);
-			//Toast.makeText(mContext, "Checked", Toast.LENGTH_SHORT).show();
 	}
 	
     
-    private class mLiveTaskCheckL implements OnCheckedChangeListener
+    private class mTaskButtonL implements OnClickListener
     {
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		public void onClick(View buttonView) {
 		    long l = ((Long)buttonView.getTag()).longValue();
-		    mContext.onCheck(l, isChecked);
+		    mContext.onTouch(l);
 		}
-
 	}
 }

@@ -16,17 +16,47 @@
 		>
 	</ImageView>
     
-	<CheckBox
+	<ImageButton
 		android:id="@+id/taskCheck"
-        android:layout_height="fill_parent"
-        android:layout_width="wrap_content"
-		android:background="@drawable/checkbox_background"
+        android:layout_height="wrap_content"
+        android:layout_width="33dip"
+		android:background="@drawable/selector_checked"
         android:layout_marginRight="3dip"
         android:layout_marginLeft="3dip"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:visibility="gone"
+		>
+	</ImageButton>   
+	
+	<ImageButton
+		android:id="@+id/taskUnCheck"
+        android:layout_height="wrap_content"
+        android:layout_width="33dip"
+		android:background="@drawable/selector_unchecked"
+        android:layout_marginRight="3dip"
+        android:layout_marginLeft="3dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+		android:visibility="gone"        
+		>
+	</ImageButton>	
+
+	<!-- 	
+	<CheckBox
+		android:id="@+id/taskCheck"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+		android:background="@drawable/btn_check_on_grayed"
+        android:layout_marginRight="3dip"
+        android:layout_marginLeft="3dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:checked="true"
         android:button="@drawable/selector_checkbox"
 	/>
+	--> 
+	
  	<LinearLayout
  		android:orientation="vertical"
 		android:layout_width="0.0dip"
@@ -61,7 +91,19 @@
 		android:layout_centerHorizontal="true"
 		android:layout_gravity="center"
 		android:layout_marginRight="6.0dip"
-		android:visibility="invisible"
+		android:visibility="gone"
 		>
 	</ImageView>
+	<ImageButton
+		android:id="@+id/delButton"
+		android:background="@drawable/selector_delete_item"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+		android:layout_width="36.0dip"
+		android:layout_height="38.0dip"
+		android:layout_centerHorizontal="true"
+		android:layout_gravity="center"
+		android:visibility="gone"
+		>
+	</ImageButton>	
 </LinearLayout>

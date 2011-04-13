@@ -30,6 +30,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1.0"
 			android:hint="Add a Task"
+			android:singleLine="true"
 			>
 		</EditText>
 		<ImageButton

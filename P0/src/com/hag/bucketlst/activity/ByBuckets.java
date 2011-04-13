@@ -2,7 +2,6 @@ package com.hag.bucketlst.activity;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -27,9 +26,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.hag.bucketlst.R;
 import com.hag.bucketlst.adapter.ByBucketAdapter;
 import com.hag.bucketlst.application.BLApp;
+import com.hag.bucketlst.customWindows.CustomWindow;
 import com.hag.bucketlst.db.TbDbAdapter;
 
-public class ByBuckets extends Activity{
+public class ByBuckets extends CustomWindow{
   /** Called when the activity is first created. */
 	
 	private static final int ACTIVITY_VOICE_RECOGNITION_TASK = 1001;
@@ -37,11 +37,9 @@ public class ByBuckets extends Activity{
     private static final int ACTIVITY_EDIT = 1;
     
     private static final int INSERT_ID = Menu.FIRST;
-    private static final int DELETE_ID = Menu.FIRST + 1;
-    private static final int CHECKED_ID = Menu.FIRST + 2;
-    private static final int EDIT_ID = Menu.FIRST + 3;
+    private static final int EDIT_ID = Menu.FIRST + 1;
     
-    
+    private Long mCatId;
     private EditText mTaskTitle;
     private ListView mLiveTaskList;
     private TbDbAdapter mDbHelper;
@@ -59,7 +57,15 @@ public class ByBuckets extends Activity{
         
         mTaskTitle = (EditText)findViewById(R.id.taskGet);
         mLiveTaskList = (ListView)findViewById(R.id.liveList);
-        initUnCheckedData();
+        
+        mCatId = (savedInstanceState != null) ? savedInstanceState.getLong(TbDbAdapter.KEY_CAT_ID) 
+				  : null;
+		if (mCatId == null) 
+		{
+			Bundle extras = getIntent().getExtras();  
+    		mCatId = (extras != null) ? extras.getLong(TbDbAdapter.KEY_CAT_ID) 
+    				: null;    		
+		}	
         
         //registerForContextMenu(getListView());
         ImageButton mTaskAdd = (ImageButton) findViewById(R.id.mainTaskAdd);
@@ -74,20 +80,112 @@ public class ByBuckets extends Activity{
         } else {
         	mTaskSpeak.setEnabled(false);
         }
+        initUnCheckedData();
     }
+        
+    // ********************************************************
+    // * HELPERS
+    // * 
+    // * 
+    // * 
+    // ********************************************************  
     
     private void initUnCheckedData() 
     {    	
+    	String catName = mDbHelper.fetchCategory(mCatId).getString(0);
+    	this.title.setText(catName);
+    	
         mLiveTaskList.setOnItemClickListener(new mLiveTaskClickL());
         mLiveTaskList.setOnCreateContextMenuListener(new mLiveTaskCreateL());
         
-        mTaskCursor = mDbHelper.fetchAllTask();
+        mTaskCursor = mDbHelper.fetchTaskByCategory(mCatId);
         startManagingCursor(mTaskCursor);
         
         mTasksAdapter = new ByBucketAdapter(this, R.layout.n_bucket_row, mTaskCursor);
         mLiveTaskList.setAdapter(mTasksAdapter);
     }
     
+    private void createTask() {
+        String taskNameFin = BLApp.wordfix(mTaskTitle.getText());
+        
+        Intent i = new Intent(this, NTaskEdit.class);
+        i.putExtra("TitleFromPrevIntent", taskNameFin);
+        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_CREATE);
+        startActivityForResult(i, ACTIVITY_CREATE);
+    }
+ 	
+    private void startVoiceRecognitionTitle()
+    {
+		Intent localIntent1 = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		localIntent1.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		localIntent1.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak your Task");
+		startActivityForResult(localIntent1, ACTIVITY_VOICE_RECOGNITION_TASK);
+    }
+    
+    private void updateLiveList()
+    {
+    	//mTaskCursor.requery();
+	    initUnCheckedData();
+    }
+    
+    // ********************************************************
+    // * LISTENERS
+    // * 
+    // * 
+    // * 
+    // ********************************************************
+    
+    // Create an anonymous implementation of OnClickListener
+    private OnClickListener mAddListener = new OnClickListener()
+    {
+		public void onClick(View v) 
+		{            
+    		if (mTaskTitle.length() != 0)
+    		{
+    			createTask();
+    		}
+    		else
+    		{
+    			Toast.makeText(getApplicationContext(), "Please Add a Task", Toast.LENGTH_SHORT).show();
+    		}
+		}
+    };
+    
+	private class mLiveTaskClickL implements OnItemClickListener 
+    {
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View view, int position,
+				long id) {
+	        Intent i = new Intent(getApplicationContext(), NTaskEdit.class);
+	        i.putExtra(TbDbAdapter.KEY_TASK_LOCID, id);
+	        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_EDIT);	        
+	        startActivityForResult(i, ACTIVITY_EDIT);			
+		}
+    }
+	
+    private class mLiveTaskCreateL implements OnCreateContextMenuListener
+    {
+
+		@Override
+		public void onCreateContextMenu(ContextMenu menu, View v,
+				ContextMenuInfo menuInfo) 
+		{
+				menu.add(0, EDIT_ID, 0, R.string.menu_edit);							
+		}
+	}
+
+	public void onTouch(long l)
+	{
+		Toast.makeText(getApplicationContext(), "Tasks can only be modified from your view", Toast.LENGTH_LONG).show();
+	}
+	
+	private OnClickListener mAutoTitle = new OnClickListener()
+    {
+    	public void onClick(View v)
+    	{
+    		startVoiceRecognitionTitle();
+    	}
+    };
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,7 +198,7 @@ public class ByBuckets extends Activity{
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch(item.getItemId()) {
         case INSERT_ID:
-            createNote();
+            createTask();
             return true;
         }
         return super.onMenuItemSelected(featureId, item);
@@ -111,21 +209,12 @@ public class ByBuckets extends Activity{
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch(item.getItemId())
 		{
-    	case DELETE_ID:
-    		info = (AdapterContextMenuInfo) item.getMenuInfo();
-	        mDbHelper.deleteTask(info.id);
-	        updateLiveList();
-	        return true;
     	case EDIT_ID:
     		info = (AdapterContextMenuInfo) item.getMenuInfo();
 	        Intent i = new Intent(getApplicationContext(), NTaskEdit.class);
 	        i.putExtra(TbDbAdapter.KEY_TASK_LOCID, info.id);
 	        startActivityForResult(i, ACTIVITY_EDIT);	
-	        return true;
-    	case CHECKED_ID:
-    		info = (AdapterContextMenuInfo) item.getMenuInfo();
-    		onCheck(info.id, true);
-	        return true;	        	        
+	        return true;        	        
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -153,91 +242,25 @@ public class ByBuckets extends Activity{
             updateLiveList();
         }
     }
-    
-    private void createNote() {
-        String taskNameFin = BLApp.wordfix(mTaskTitle.getText());
         
-        Intent i = new Intent(this, NTaskEdit.class);
-        i.putExtra("TitleFromPrevIntent", taskNameFin);
-        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_CREATE);
-        startActivityForResult(i, ACTIVITY_CREATE);
-    }
-    
-    // Create an anonymous implementation of OnClickListener
-    private OnClickListener mAddListener = new OnClickListener()
-    {
-		public void onClick(View v) 
-		{            
-    		if (mTaskTitle.length() != 0)
-    		{
-    			createNote();
-    		}
-    		else
-    		{
-    			Toast.makeText(getApplicationContext(), "Please Add a Task", Toast.LENGTH_LONG).show();
-    		}
-		}
-    };
-    
-	private class mLiveTaskClickL implements OnItemClickListener 
-    {
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View view, int position,
-				long id) {
-	        Intent i = new Intent(getApplicationContext(), NTaskEdit.class);
-	        i.putExtra(TbDbAdapter.KEY_TASK_LOCID, id);
-	        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_EDIT);	        
-	        startActivityForResult(i, ACTIVITY_EDIT);			
-		}
-    }
-	
-    private class mLiveTaskCreateL implements OnCreateContextMenuListener
-    {
-
-		@Override
-		public void onCreateContextMenu(ContextMenu menu, View v,
-				ContextMenuInfo menuInfo) 
-		{
-				menu.add(0, EDIT_ID, 0, R.string.menu_edit);
-				menu.add(0, CHECKED_ID, 0, R.string.menu_check);
-				menu.add(0, DELETE_ID, 0, R.string.menu_delete);			
-		}
-	}
-    
-    
-    private void updateLiveList()
-    {
-    	//mTaskCursor.requery();
-	    initUnCheckedData();
-    }
-
-	public void onCheck(long l, boolean isChecked)
-	{
-		int checkedInt = (isChecked) ? 1 : 0;
-	    mDbHelper.updateIsChecked(l, checkedInt);
-	    updateLiveList();
-	}
-	
-	private OnClickListener mAutoTitle = new OnClickListener()
-    {
-    	public void onClick(View v)
-    	{
-    		startVoiceRecognitionTitle();
-    	}
-    };
-	
-    private void startVoiceRecognitionTitle()
-    {
-		Intent localIntent1 = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-		localIntent1.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		localIntent1.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak your Task");
-		startActivityForResult(localIntent1, ACTIVITY_VOICE_RECOGNITION_TASK);
-    }
-        
+    // ********************************************************
+    // * ACTIVITY LIFE CYCLE
+    // * 
+    // * 
+    // * 
+    // ********************************************************
     
     @Override
     protected void onResume() {
        super.onResume();
 	   updateLiveList();
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+		if (mCatId != null) {
+	        outState.putLong(TbDbAdapter.KEY_CAT_ID, mCatId);
+		} 
     }
 }

@@ -33,8 +33,7 @@ public class NCategoryView extends Activity {
     /** Called when the activity is first created. */
 	
     private static final int ACTIVITY_VOICE_RECOGNITION_TASK = 1002;
-    private static final int ACTIVITY_CREATE = 10;
-    private static final int ACTIVITY_EDIT = 11;
+    //private static final int ACTIVITY_BUCK_VIEW = 10;
     
     private EditText mCatName;
     private ListView mCatList;
@@ -141,8 +140,9 @@ public class NCategoryView extends Activity {
 		public void onItemClick(AdapterView<?> arg0, View view, int position,
 				long id) {
 	        Intent i = new Intent(getApplicationContext(), ByBuckets.class);
-	        //i.putExtra(TbDbAdapter.KEY_CAT_ID, id);       
+	        i.putExtra(TbDbAdapter.KEY_CAT_ID, id);
 	        startActivity(i);
+	        //startActivityForResult(i, ACTIVITY_BUCK_VIEW);
 		}
     }
 	

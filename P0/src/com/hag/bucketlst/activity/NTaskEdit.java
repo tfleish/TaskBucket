@@ -69,7 +69,7 @@ public class NTaskEdit extends CustomTab {
     private long[] collabIdLst;
     private boolean[] chosenCollabLst;
 
-    private Long mRowId;	
+    private Long mTaskId;	
     private long webId = 0;
     private int isChecked = 0;
     private int isMine = 1;
@@ -91,7 +91,7 @@ public class NTaskEdit extends CustomTab {
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        this.title.setText("task Info");
+        //this.title.setText("task Info");
         setContentView(R.layout.ntedit);
         
         // initializes the view tabs
@@ -121,31 +121,22 @@ public class NTaskEdit extends CustomTab {
 		genPriLst();
 		genCollabLst();
 		
-        mRowId = (savedInstanceState != null) ? savedInstanceState.getLong(TbDbAdapter.KEY_TASK_LOCID) 
+        mTaskId = (savedInstanceState != null) ? savedInstanceState.getLong(TbDbAdapter.KEY_TASK_LOCID) 
 				  : null;
-		if (mRowId == null) 
+		if (mTaskId == null) 
 		{
 			Bundle extras = getIntent().getExtras();  
 			int ReqCode = extras.getInt("ReqCodeFromPrevIntent");
 			switch(ReqCode)
 			{
 	    	case ACTIVITY_EDIT:
-				mRowId = (extras != null) ? extras.getLong(TbDbAdapter.KEY_TASK_LOCID) 
+				mTaskId = (extras != null) ? extras.getLong(TbDbAdapter.KEY_TASK_LOCID) 
 						  : null;
 	    	case ACTIVITY_CREATE:
 				initTitle = (savedInstanceState != null) ? savedInstanceState.getString("TitleFromPrevIntent")
 						: extras.getString("TitleFromPrevIntent");
 			}
 		}		
-		/**		
-			if (ReqCode == ACTIVITY_EDIT){
-				mRowId = (extras != null) ? extras.getLong(TbDbAdapter.KEY_TASK_LOCID) 
-					  : null;
-			} else if (ReqCode == ACTIVITY_CREATE){
-			//initTitle = (savedInstanceState != null) ? savedInstanceState.getString("TitleFromPrevIntent")
-			//		: extras.getString("TitleFromPrevIntent");
-			}		  		  
-		 **/
 		
 		populateFields();
 		
@@ -176,12 +167,12 @@ public class NTaskEdit extends CustomTab {
     // ********************************************************
     
     private void populateFields() {    	
-        if (mRowId != null) {
+        if (mTaskId != null) {
         	            
             mTaskCat.setClickable(false);
             mTaskCat.setEnabled(false);
             
-            Cursor task = tbDbHelper.fetchTask(mRowId);
+            Cursor task = tbDbHelper.fetchTask(mTaskId);
             startManagingCursor(task);
                 
             String localTitle = task.getString(task.getColumnIndexOrThrow(TbDbAdapter.KEY_TASK_TITLE));            
@@ -199,8 +190,10 @@ public class NTaskEdit extends CustomTab {
                         
             if (voiceTitleResult == null){
             	mTaskText.setText(localTitle);
+            	this.title.setText(localTitle);
             } else {
             	mTaskText.setText(voiceTitleResult);
+            	this.title.setText(voiceTitleResult);
             	voiceTitleResult = null;
             }
             if (voiceNoteResult == null){
@@ -213,9 +206,11 @@ public class NTaskEdit extends CustomTab {
             mTaskCat.setText(category);
             updateDueButton();
             mTaskPri.setSelection(((int) priItem) - 1);
+            task.close();
         } else {
             if (voiceTitleResult != null){
             	mTaskText.setText(voiceTitleResult);
+            	this.title.setText(voiceTitleResult);
             	voiceTitleResult = null;
             }
             if (voiceNoteResult != null){
@@ -224,6 +219,7 @@ public class NTaskEdit extends CustomTab {
             }
             if (initTitle != null){
             	mTaskText.setText(initTitle);
+            	this.title.setText(initTitle);
             	initTitle = null;
             }        
         }
@@ -416,15 +412,15 @@ public class NTaskEdit extends CustomTab {
 
 		if (mTaskText.length() != 0)
 		{
-	        if (mRowId == null) {
+	        if (mTaskId == null) {
 	            long id = tbDbHelper.makeTask(localWebId, localTitle, localCatId, localNotes,
 	            		localDueDate, localPriority, localChecked, localMine, localDeleted, 
 	            		localSynced, localUptodate, localVersion);
 	            if (id > 0) {
-	                mRowId = id;
+	                mTaskId = id;
 	            }
 	        } else {
-	        	tbDbHelper.updateTaskImp(mRowId, localTitle, localNotes,
+	        	tbDbHelper.updateTaskImp(mTaskId, localTitle, localNotes,
 	            	localDueDate, localPriority, localUptodate, localVersion);
 	        }
 		}
@@ -558,14 +554,12 @@ public class NTaskEdit extends CustomTab {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-		if (mRowId != null) {
-	        outState.putLong(TbDbAdapter.KEY_TASK_LOCID, mRowId);
+		if (mTaskId != null) {
+	        outState.putLong(TbDbAdapter.KEY_TASK_LOCID, mTaskId);
 		} 
-		/**
 		else {
 			outState.putString("TitleFromPrevIntent", mTaskText.getText().toString());
 		}
-		**/
     }
     
     @Override

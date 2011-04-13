@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hag.bucketlst.R;
-import com.hag.bucketlst.activity.CategoryEdit;
 import com.hag.bucketlst.customWindows.CustomWindow;
 import com.hag.bucketlst.db.CDBAdapter;
 import com.hag.bucketlst.db.LDBAdapter;

@@ -32,17 +32,17 @@
 			android:windowSoftInputMode="adjustResize|stateHidden">
 		</activity>		
 
-		<activity android:name=".activity.CategoryEdit" android:configChanges="orientation|keyboardHidden" 
-			android:windowSoftInputMode="adjustResize|stateHidden">
-		</activity>
-		
 		<activity android:name=".activity.NCategoryView" android:configChanges="orientation|keyboardHidden" 
 			android:windowSoftInputMode="adjustResize|stateHidden">
 		</activity>		
 		
 		<activity android:name=".activity.ByBuckets" android:configChanges="orientation|keyboardHidden" 
 			android:windowSoftInputMode="adjustResize|stateHidden">
-		</activity>		
+		</activity>	
 				
+		<activity android:name=".activity.FakeUserAdd" android:configChanges="orientation|keyboardHidden" 
+			android:windowSoftInputMode="adjustResize|stateHidden">
+		</activity>
+							
     </application>
 </manifest>

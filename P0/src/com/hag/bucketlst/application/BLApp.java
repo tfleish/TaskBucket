@@ -3,6 +3,9 @@ package com.hag.bucketlst.application;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.Editable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.hag.bucketlst.db.TbDbAdapter;
 

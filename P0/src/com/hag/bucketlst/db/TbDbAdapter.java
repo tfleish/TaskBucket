@@ -226,6 +226,15 @@ public class TbDbAdapter {
         return db.insert(DATABASE_TABLE_CATEGORIES, null, initialValues);
     }
     
+    public long makeCollaborators(String uName, String dName) 
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_USER_NAME, uName);
+        initialValues.put(KEY_USER_DISPLAYNAME, dName);
+        
+        return db.insert(DATABASE_TABLE_USERS, null, initialValues);
+    }    
+    
     public long addUser2Task(long taskId, long userId) 
     {
         ContentValues initialValues = new ContentValues();
@@ -742,7 +751,7 @@ public class TbDbAdapter {
 		return localCursor;
     }
     
-	public Cursor fetchUncheckedByCategory(long catId)
+	public Cursor fetchTaskByCategory(long catId)
 	{
 		SQLiteDatabase localSQLiteDatabase = getDB();
 		String[] arrayOfStrings = new String[12];
@@ -760,7 +769,8 @@ public class TbDbAdapter {
 		arrayOfStrings[10] = KEY_TASK_ISUPTODATE;
 		arrayOfStrings[11] = KEY_TASK_VERSION;
 		
-		String str = "(" + KEY_TASK_CATID + "=" + catId + ") AND (" + KEY_TASK_ISDELETED + "='0')";
+		String str = KEY_TASK_CATID + "=" + catId;
+		//String str = "(" + KEY_TASK_CATID + "=" + catId + ") AND (" + KEY_TASK_ISDELETED + "='0')";
 		//"(category=" + paramLong + ") AND (" + "is_deleted" + "='false')";
 		Cursor localCursor = localSQLiteDatabase.query(true, DATABASE_TABLE_TASKS, arrayOfStrings, str, null, null, null, null, null);
 		if (localCursor != null){
