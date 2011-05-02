@@ -164,4 +164,9 @@ public class NCollabView extends Activity {
 		Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();	
 	}
 
+	public void onCheck(long l, boolean isChecked) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

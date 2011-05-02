@@ -1,38 +1,61 @@
 package com.hag.bucketlst.adapter;
 
+import java.util.HashSet;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
 import com.hag.bucketlst.R;
 import com.hag.bucketlst.activity.NCollabView;
+import com.hag.bucketlst.application.BLApp;
 import com.hag.bucketlst.db.TbDbAdapter;
 
 public class CollabAdapter extends ResourceCursorAdapter 
 {
+	private Long catId;
+	private HashSet<Long> checkedCollabs;
 	private NCollabView mContext;
-	//private TbDbAdapter mDbHelper;
+	private TbDbAdapter mDbHelper;
 	
-	public CollabAdapter(Context context, int layout, Cursor c) {
+	public CollabAdapter(Context context, int layout, Cursor c, Long cId) {
 		super(context, layout, c);
 		mContext = (NCollabView) context;
-		//mDbHelper = BLApp.getHelper();
+		mDbHelper = BLApp.getHelper();
+		checkedCollabs = new HashSet<Long>();
+		catId = cId;
+		populateCheckedCollabs();
 	}
 	
 	public CollabAdapter(Context context, int layout, Cursor c,
-			boolean autoRequery) {
+			boolean autoRequery, Long cId) {
 		super(context, layout, c, autoRequery);
 		mContext = (NCollabView)context;
-		//mDbHelper = BLApp.getHelper();
+		mDbHelper = BLApp.getHelper();
+		checkedCollabs = new HashSet<Long>();
+		catId = cId;
+		populateCheckedCollabs();
 	}
 	
 	private void populateCheckedCollabs(){
+		Cursor mCatCursor = mDbHelper.fetchCollabsByCategory(catId);
+		mContext.startManagingCursor(mCatCursor);
 		
+        if (mCatCursor.moveToFirst())  
+        {                         
+            for (int i = 0; i < mCatCursor.getCount(); i++)  
+            {  
+                checkedCollabs.add(Long.valueOf(mCatCursor.getLong(0)));
+                mCatCursor.moveToNext();  
+            }             
+        }         
+        mCatCursor.close();
 	}
 
 	@Override
@@ -49,31 +72,31 @@ public class CollabAdapter extends ResourceCursorAdapter
 		String userNameC = cursor.getString(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_USER_NAME));
 		userNameV.setText(userNameC);
 		
+		long uId = cursor.getLong(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_USER_ID));
+		int uuId = (int) uId;
+		
 		userChooseV.setOnCheckedChangeListener(null);
-		
-		
-		
-		int checkEditable = cursor.getInt(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_CAT_ISEDITABLE));
-		boolean isEditable = (checkEditable == 1) ? true : false;
-		
-		long catId = cursor.getLong(cursor.getColumnIndexOrThrow(TbDbAdapter.KEY_CAT_ID));
-		
-		editCat.setTag(catId);
-		deleteCat.setTag(catId);
+		userChooseV.setTag(uId);
+		userDelV.setTag(uId);	
 
-		if(isEditable){
-			editCat.setVisibility(View.VISIBLE);
-			editCat.setOnClickListener(new mCatEditL());
-			editCat.setFocusable(false);
-			editCat.setFocusableInTouchMode(false);
+		if(uuId != 1){
+			if (checkedCollabs.contains(uId)){
+				userChooseV.setChecked(true);
+			}
+			userChooseV.setOnCheckedChangeListener(new mCollChooseL());
+			userChooseV.setFocusable(false);
+			userChooseV.setFocusableInTouchMode(false);
 			
-			deleteCat.setVisibility(View.VISIBLE);
-			deleteCat.setOnClickListener(new mCatDelL());
-			deleteCat.setFocusable(false);
-			deleteCat.setFocusableInTouchMode(false);
+			userDelV.setVisibility(View.VISIBLE);
+			userDelV.setOnClickListener(new mCatDelL());
+			userDelV.setFocusable(false);
+			userDelV.setFocusableInTouchMode(false);
 		} else {
-			editCat.setVisibility(View.INVISIBLE);
-			deleteCat.setVisibility(View.INVISIBLE);
+			userChooseV.setChecked(true);
+			userChooseV.setFocusable(true);
+			userChooseV.setFocusableInTouchMode(true);
+			userChooseV.setClickable(false);
+			userDelV.setVisibility(View.INVISIBLE);
 		}
 	}
 	
@@ -86,12 +109,12 @@ public class CollabAdapter extends ResourceCursorAdapter
 		}
 	}
     
-    private class mCatEditL implements OnClickListener
+    private class mCollChooseL implements CompoundButton.OnCheckedChangeListener
     {
 		@Override
-		public void onClick(View v) {
+		public void onCheckedChanged(CompoundButton v, boolean isChecked) {
 		    long l = ((Long)v.getTag()).longValue();
-		    mContext.onEditClick(l);
+		    mContext.onCheck(l, isChecked);
 		}
 	}
 }
