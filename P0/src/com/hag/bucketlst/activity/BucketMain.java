@@ -6,16 +6,31 @@ import android.os.Bundle;
 import android.widget.TabHost;
 
 import com.hag.bucketlst.R;
+import com.hag.bucketlst.application.BLApp;
 import com.hag.bucketlst.customWindows.CustomTab;
 
 public class BucketMain extends CustomTab {
     /** Called when the activity is first created. */
     
+	private static final int ACTIVITY_GET_DISPNAME = 1010;
+	private Thread splashTread;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
         this.title.setText("bucketLST");
+        
+        if(BLApp.firstRun(this)){
+        	splashTread = new Thread () {
+        		@Override
+                public void run() {
+        			Intent getDispName = new Intent(getApplicationContext(), runOnce.class);
+        			startActivityForResult(getDispName, ACTIVITY_GET_DISPNAME);
+        		}
+        	};
+        	splashTread.start();
+        }
 
         //Resources res = getResources(); // Resource object to get Drawables
         TabHost tabHost = getTabHost();  // The activity TabHost
@@ -39,5 +54,20 @@ public class BucketMain extends CustomTab {
 
         tabHost.setCurrentTab(0);
     }
-
+   
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+    	super.onActivityResult(requestCode, resultCode, intent);  
+        if ((requestCode == ACTIVITY_GET_DISPNAME) && (resultCode == RESULT_OK))
+        {
+        	splashTread.stop();
+        }
+        
+        if ((requestCode == ACTIVITY_GET_DISPNAME) && (resultCode == RESULT_CANCELED))
+        {
+        	finish();
+        }
+	}
+    
 }

@@ -261,6 +261,7 @@ public class TbDbAdapter {
      */
     public boolean deleteTask(long rowId) 
     {
+    	removeTaskFromUser(rowId);
     	String str = KEY_TASK_LOCID + "=" + rowId;
         return db.delete(DATABASE_TABLE_TASKS, str, null) > 0;
     }
@@ -268,8 +269,17 @@ public class TbDbAdapter {
     public boolean deleteCategory(long rowId) 
     {
     	removeTaskinCat(rowId);
+    	removeCatFromUser(rowId);
     	String str = KEY_CAT_ID + "=" + rowId;
         return db.delete(DATABASE_TABLE_CATEGORIES, str, null) > 0;
+    }
+    
+    public boolean deleteCollaborator(long usrId)
+    { 
+      	removeUserFromTask(usrId);
+      	removeUserFromCat(usrId);
+    	String str = KEY_USER_ID + "=" + usrId;
+        return db.delete(DATABASE_TABLE_USERS, str, null) > 0;
     }
     
     /**
@@ -309,22 +319,56 @@ public class TbDbAdapter {
         return db.delete(DATABASE_TABLE_TASK_USER, str, null) > 0;
     }
     
-    public boolean deleteCatUser(long rowId) 
+    public boolean removeCatFromUser(long rowId)
     {
     	String str = KEY_CATUSER_CATID + "=" + rowId;
-        return db.delete(DATABASE_TABLE_CAT_USER, str, null) > 0;
+    	return db.delete(DATABASE_TABLE_CAT_USER, str, null) > 0;
     }
+
+    public boolean removeTaskFromUser(long rowId)
+    {
+    	String str = KEY_TASKUSER_TASKID + "=" + rowId;
+    	return db.delete(DATABASE_TABLE_TASK_USER, str, null) > 0;
+    }
+
     
     public boolean removeTaskinCat(long rowId) 
     {
+    	String[] arrayOfString = new String[1];
+    	arrayOfString[0] = KEY_TASK_LOCID;
     	String str = KEY_TASK_CATID + "=" + rowId;
-        return db.delete(DATABASE_TABLE_TASKS, str, null) > 0;
+    	
+    	Cursor localCursor = db.query(DATABASE_TABLE_TASKS, arrayOfString, str, null, null, null, null);    	
+		if (localCursor.moveToFirst())
+		{
+            for (int i = 0; i < localCursor.getCount(); i++)  
+            {  
+            	Long taskId = localCursor.getLong(localCursor.getColumnIndexOrThrow(KEY_TASK_LOCID));
+            	removeTaskFromUser(taskId);
+            	localCursor.moveToNext();  
+            }          
+		}
+		localCursor.close();
+        
+		return db.delete(DATABASE_TABLE_TASKS, str, null) > 0;
+    }
+    
+    public boolean removeUserFromTask(long userId)
+    {
+    	String str = KEY_TASKUSER_USERID + "=" + userId;
+    	return db.delete(DATABASE_TABLE_TASK_USER, str, null) > 0;
     }
     
     public boolean removeUserTask(long rowId, long userId) 
     {
     	String str = "(" + KEY_TASKUSER_TASKID + "=" + rowId + ") AND (" + KEY_TASKUSER_USERID + "=" + userId + ")";
         return db.delete(DATABASE_TABLE_TASK_USER, str, null) > 0;
+    }
+    
+    public boolean removeUserFromCat(long userId)
+    {
+    	String str = KEY_TASKUSER_USERID + "=" + userId;
+    	return db.delete(DATABASE_TABLE_CAT_USER, str, null) > 0;
     }
     
     public boolean removeUserCat(long rowId, long userId) 

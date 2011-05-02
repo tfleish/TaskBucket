@@ -1,11 +1,9 @@
 package com.hag.bucketlst.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.Editable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.hag.bucketlst.db.TbDbAdapter;
 
@@ -32,6 +30,11 @@ public class BLApp extends Application{
         String nomFin = nomCap + nomWord.substring(1);
         return nomFin;
 	}
+	
+	public static boolean firstRun(Context mContext)
+	{
+		return mContext.getSharedPreferences("GetUserName", 0).getBoolean("First Run", true);
+	}	
 
 	public void onCreate()
 	{

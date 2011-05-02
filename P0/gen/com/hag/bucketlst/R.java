@@ -127,12 +127,13 @@ public final class R {
         public static final int n_task_row=0x7f03000e;
         public static final int ncedit=0x7f03000f;
         public static final int ntedit=0x7f030010;
-        public static final int task_info=0x7f030011;
-        public static final int task_notes=0x7f030012;
-        public static final int task_row=0x7f030013;
-        public static final int tedit=0x7f030014;
-        public static final int test_tasks=0x7f030015;
-        public static final int window_title=0x7f030016;
+        public static final int run_once=0x7f030011;
+        public static final int task_info=0x7f030012;
+        public static final int task_notes=0x7f030013;
+        public static final int task_row=0x7f030014;
+        public static final int tedit=0x7f030015;
+        public static final int test_tasks=0x7f030016;
+        public static final int window_title=0x7f030017;
     }
     public static final class string {
         public static final int add=0x7f050004;

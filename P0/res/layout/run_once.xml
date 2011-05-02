@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+        
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+		<TextView  
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content" 
+		    android:text="Please pick a display name"
+		    android:padding="5dip"
+			android:textStyle="bold"
+			android:textColor="#FFFFFFFF"
+		/>
+		
+		<EditText  
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:id="@+id/dnameGet"
+			android:paddingBottom="5dip"
+		/>
+		
+		<View
+			android:background="@drawable/line"
+			android:padding="5.0dip"
+			android:layout_width="fill_parent"
+			android:layout_height="1.0dip"
+			android:layout_margin="5.0dip"
+			>
+		</View>			
+    
+	    <Button
+		android:id="@+id/addUser"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:text="@string/add"
+		android:paddingTop="8dip"
+		android:layout_gravity="center"
+		/>
+</LinearLayout>

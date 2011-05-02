@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hag.bucketlst.R;
 import com.hag.bucketlst.activity.MyTasks;

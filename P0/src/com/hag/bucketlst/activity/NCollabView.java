@@ -1,33 +1,28 @@
 package com.hag.bucketlst.activity;
 
 // test push from eclipse in testBranch?
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.hag.bucketlst.R;
 import com.hag.bucketlst.adapter.CollabAdapter;
 import com.hag.bucketlst.application.BLApp;
+import com.hag.bucketlst.customWindows.CustomWindow;
 import com.hag.bucketlst.db.TbDbAdapter;
 
-public class NCollabView extends Activity {
+public class NCollabView extends CustomWindow {
     /** Called when the activity is first created. */
-	
-    private static final int ACTIVITY_VOICE_RECOGNITION_TASK = 1002;
-    //private static final int ACTIVITY_BUCK_VIEW = 10;
     
+    private Long mCatId;
     private EditText mCollabName;
     private ListView mCollabList;
     private TbDbAdapter mDbHelper;
@@ -45,6 +40,15 @@ public class NCollabView extends Activity {
         mCollabName = (EditText)findViewById(R.id.collabUnameGet);
         mCollabList = (ListView)findViewById(R.id.collabList);
         
+        mCatId = (savedInstanceState != null) ? savedInstanceState.getLong(TbDbAdapter.KEY_CAT_ID) 
+				  : null;
+		if (mCatId == null) 
+		{
+			Bundle extras = getIntent().getExtras();  
+			mCatId = (extras != null) ? extras.getLong(TbDbAdapter.KEY_CAT_ID) 
+						  : null;
+		}
+        
         ImageButton mCollabAdd = (ImageButton) findViewById(R.id.collabAdd);
         mCollabAdd.setOnClickListener(mAddListener);
         
@@ -60,11 +64,13 @@ public class NCollabView extends Activity {
     
     private void initCollabData() {
     	//mCollabList.setOnItemClickListener(new mCollabClickL());
-        
-    	mCollabCursor = mDbHelper.fetchAllCategories();
+        String catTitle = mDbHelper.fetchCategory(mCatId).getString(0);
+        this.title.setText(catTitle);
+    	
+    	mCollabCursor = mDbHelper.fetchAllCollaborators();
         startManagingCursor(mCollabCursor);
         
-        mCollabAdapter = new CollabAdapter(this, R.layout.n_collab_row, mCollabCursor);
+        mCollabAdapter = new CollabAdapter(this, R.layout.n_collab_row, mCollabCursor, mCatId);
         mCollabList.setAdapter(mCollabAdapter);
     }    
     
@@ -78,7 +84,8 @@ public class NCollabView extends Activity {
         mgr.hideSoftInputFromWindow(mCatName.getApplicationWindowToken(), 0);
     	updateCatView();
     	**/
-    	Toast.makeText(getApplicationContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+    	String nameToAdd = mCollabName.getText().toString();
+    	Toast.makeText(getApplicationContext(), nameToAdd + " isn't in the database. Feature coming soon", Toast.LENGTH_SHORT).show();
     }
     
     private void updateCollabView()
@@ -87,9 +94,9 @@ public class NCollabView extends Activity {
 	    //initCatData();
     }
     
-    private void deleteBucket(long rowId)
+    private void deleteCollaborator(long rowId)
     {
-    	mDbHelper.deleteCategory(rowId);
+    	mDbHelper.deleteCollaborator(rowId);
     	updateCollabView();
     }
 
@@ -105,24 +112,21 @@ public class NCollabView extends Activity {
        super.onResume();
     }
     
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+		if (mCatId != null) {
+	        outState.putLong(TbDbAdapter.KEY_CAT_ID, mCatId);
+		}
+    }
+    
+    
     // ********************************************************
     // * LISTENERS
     // * 
     // * 
     // * 
     // ********************************************************
-    
-	private class mCollabClickL implements OnItemClickListener 
-    {
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View view, int position,
-				long id) {
-	        Intent i = new Intent(getApplicationContext(), ByBuckets.class);
-	        i.putExtra(TbDbAdapter.KEY_CAT_ID, id);
-	        startActivity(i);
-	        //startActivityForResult(i, ACTIVITY_BUCK_VIEW);
-		}
-    }
 
     // Create an anonymous implementation of OnClickListener
     private OnClickListener mAddListener = new OnClickListener()
@@ -135,7 +139,7 @@ public class NCollabView extends Activity {
 	    	}
 	    	catch (Exception ex)
 	    	{
-	    		Toast.makeText(getApplicationContext(), "Please Add a Bucket", Toast.LENGTH_SHORT).show();
+	    		Toast.makeText(getApplicationContext(), "Please type a username", Toast.LENGTH_SHORT).show();
 	    	}
 		}
 	};
@@ -143,11 +147,11 @@ public class NCollabView extends Activity {
 	public void onDelClick(final long l) {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Delete Bucket?");
-    	builder.setMessage("All tasks associated with this bucket will also be deleted.");
+		builder.setTitle("Delete Collaborator?");
+    	builder.setMessage("This Collaborator will be removed from all tasks.");
     	builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-            	deleteBucket(l);
+            	deleteCollaborator(l);
             }
         });
     	builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -160,13 +164,12 @@ public class NCollabView extends Activity {
     	dialog.show();
 	}
 
-	public void onEditClick(long l) {
-		Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();	
-	}
-
 	public void onCheck(long l, boolean isChecked) {
-		// TODO Auto-generated method stub
-		
+		if (isChecked){
+			mDbHelper.addUser2Cat(mCatId, l);
+		} else {
+			mDbHelper.removeUserCat(mCatId, l);
+		}
 	}
 
 }
