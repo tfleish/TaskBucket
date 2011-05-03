@@ -96,7 +96,10 @@ public class NCategoryView extends Activity {
     
     private void createBucket() {
     	String catNameFin = BLApp.wordfix(mCatName.getText());
-    	mDbHelper.makeCategory(catNameFin);
+    	Long id = mDbHelper.makeCategory(catNameFin);
+        if (id > 0) {
+        	mDbHelper.addUser2Cat(id, 1);
+        }
     	mCatName.setText("");
         InputMethodManager mgr = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(mCatName.getApplicationWindowToken(), 0);
@@ -191,7 +194,9 @@ public class NCategoryView extends Activity {
 	}
 
 	public void onEditClick(long l) {
-		Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();	
+		Intent i = new Intent(getApplicationContext(), NCollabView.class);
+		i.putExtra(TbDbAdapter.KEY_CAT_ID, l);
+		startActivity(i);
 	}
 
 }

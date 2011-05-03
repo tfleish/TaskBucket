@@ -221,6 +221,7 @@ public class MyTasks extends Activity{
 		int checkedInt = (isChecked) ? 1 : 0;
 	    mDbHelper.updateIsChecked(l, checkedInt);
 	    updateLiveList();
+	    Toast.makeText(getApplicationContext(), "Task Moved to Done Tab", Toast.LENGTH_LONG).show();
 	}
 	
 	private OnClickListener mAutoTitle = new OnClickListener()
