@@ -33,8 +33,8 @@ public class ByBuckets extends CustomWindow{
   /** Called when the activity is first created. */
 	
 	private static final int ACTIVITY_VOICE_RECOGNITION_TASK = 1001;
-    private static final int ACTIVITY_CREATE = 0;
-    private static final int ACTIVITY_EDIT = 1;
+    private static final int ACTIVITY_BUCKET_CREATE = 2;
+    private static final int ACTIVITY_BUCKET_EDIT = 3;
     
     private static final int INSERT_ID = Menu.FIRST + 1;
     private static final int EDIT_ID = Menu.FIRST + 2;
@@ -110,8 +110,9 @@ public class ByBuckets extends CustomWindow{
         
         Intent i = new Intent(this, NTaskEdit.class);
         i.putExtra("TitleFromPrevIntent", taskNameFin);
-        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_CREATE);
-        startActivityForResult(i, ACTIVITY_CREATE);
+        i.putExtra("DefaultCategory", mCatId);
+        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_BUCKET_CREATE);
+        startActivityForResult(i, ACTIVITY_BUCKET_CREATE);
     }
  	
     private void startVoiceRecognitionTitle()
@@ -158,8 +159,8 @@ public class ByBuckets extends CustomWindow{
 				long id) {
 	        Intent i = new Intent(getApplicationContext(), NTaskEdit.class);
 	        i.putExtra(TbDbAdapter.KEY_TASK_LOCID, id);
-	        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_EDIT);	        
-	        startActivityForResult(i, ACTIVITY_EDIT);			
+	        i.putExtra("ReqCodeFromPrevIntent", ACTIVITY_BUCKET_EDIT);	        
+	        startActivityForResult(i, ACTIVITY_BUCKET_EDIT);			
 		}
     }
 	
@@ -213,7 +214,7 @@ public class ByBuckets extends CustomWindow{
     		info = (AdapterContextMenuInfo) item.getMenuInfo();
 	        Intent i = new Intent(getApplicationContext(), NTaskEdit.class);
 	        i.putExtra(TbDbAdapter.KEY_TASK_LOCID, info.id);
-	        startActivityForResult(i, ACTIVITY_EDIT);	
+	        startActivityForResult(i, ACTIVITY_BUCKET_EDIT);	
 	        return true;        	        
 		}
 		return super.onContextItemSelected(item);
@@ -231,13 +232,13 @@ public class ByBuckets extends CustomWindow{
           mTaskTitle.setText(strCon);
         }
         
-        if ((requestCode == ACTIVITY_CREATE) && (resultCode == RESULT_OK))
+        if ((requestCode == ACTIVITY_BUCKET_CREATE) && (resultCode == RESULT_OK))
         {
             updateLiveList();
             mTaskTitle.setText("");
         }
         
-        if ((requestCode == ACTIVITY_EDIT) && (resultCode == RESULT_OK))
+        if ((requestCode == ACTIVITY_BUCKET_EDIT) && (resultCode == RESULT_OK))
         {
             updateLiveList();
         }

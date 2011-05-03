@@ -42,6 +42,8 @@ public class NTaskEdit extends CustomTab {
     
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
+    private static final int ACTIVITY_BUCKET_CREATE = 2;
+    private static final int ACTIVITY_BUCKET_EDIT = 3;
     
 	private final int DIALOG_CAT_ID = 0;
 	private final int DIALOG_DUE_ID = 1;
@@ -79,6 +81,8 @@ public class NTaskEdit extends CustomTab {
     private int isSynced = 0;
     private int isUptodate = 0;
     private int isVersion = 0;
+    
+    private long catIdBuck;
     
     private String voiceTitleResult;
     private String voiceNoteResult;
@@ -136,9 +140,25 @@ public class NTaskEdit extends CustomTab {
 	    	case ACTIVITY_EDIT:
 				mTaskId = (extras != null) ? extras.getLong(TbDbAdapter.KEY_TASK_LOCID) 
 						  : null;
+				break;
 	    	case ACTIVITY_CREATE:
 				initTitle = (savedInstanceState != null) ? savedInstanceState.getString("TitleFromPrevIntent")
 						: extras.getString("TitleFromPrevIntent");
+				break;
+	    	case ACTIVITY_BUCKET_CREATE:
+				initTitle = (savedInstanceState != null) ? savedInstanceState.getString("TitleFromPrevIntent")
+						: extras.getString("TitleFromPrevIntent");
+				catIdBuck = (savedInstanceState != null) ? savedInstanceState.getLong("DefaultCategory")
+						: extras.getLong("DefaultCategory");
+                mTaskCat.setClickable(false);                
+                mTaskCat.setEnabled(false);	
+                break;
+	    	case ACTIVITY_BUCKET_EDIT:
+				mTaskId = (extras != null) ? extras.getLong(TbDbAdapter.KEY_TASK_LOCID) 
+						  : null;
+                mTaskCat.setClickable(false);                
+                mTaskCat.setEnabled(false);	
+                break;
 			}
 		}		
 		
@@ -229,7 +249,15 @@ public class NTaskEdit extends CustomTab {
             	mTaskText.setText(initTitle);
             	this.title.setText(initTitle);
             	initTitle = null;
-            }        
+            }      
+            if (catIdBuck != 0){
+            	catItem = catIdBuck;
+            	catIdBuck = 0;
+            	category = tbDbHelper.fetchCategory(catItem).getString(0);
+                mTaskCat.setText(category);
+                mTaskCat.setClickable(false);                
+                mTaskCat.setEnabled(false);	
+            }
         }
     }
     
@@ -605,6 +633,7 @@ public class NTaskEdit extends CustomTab {
 		} 
 		else {
 			outState.putString("TitleFromPrevIntent", mTaskText.getText().toString());
+			outState.putLong("DefaultCategory", catItem);
 		}
     }
     
