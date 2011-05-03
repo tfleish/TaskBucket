@@ -19,7 +19,7 @@ public class BucketMain extends CustomTab {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.main);
-        this.title.setText("taskBucket");
+        this.title.setText("TaskBucket");
         
         if(BLApp.firstRun(this)){
         	splashTread = new Thread () {

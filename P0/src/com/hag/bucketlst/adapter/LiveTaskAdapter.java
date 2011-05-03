@@ -63,6 +63,8 @@ public class LiveTaskAdapter extends ResourceCursorAdapter
 		long collabCount = mDbHelper.countCollaboratorsByTask(locId);
 		if(collabCount > 1){
 			collabsV.setVisibility(View.VISIBLE);
+		} else {
+			collabsV.setVisibility(View.INVISIBLE);
 		}
 		checkerV.setTag(locId);
 		checkerV.setOnClickListener(new mLiveTaskCheckL());

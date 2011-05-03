@@ -3,6 +3,7 @@ package com.hag.bucketlst.activity;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -18,6 +19,7 @@ import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,7 +28,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.hag.bucketlst.R;
 import com.hag.bucketlst.application.BLApp;
@@ -44,7 +45,6 @@ public class NTaskEdit extends CustomTab {
     
 	private final int DIALOG_CAT_ID = 0;
 	private final int DIALOG_DUE_ID = 1;
-	private final int DIALOG_COLLAB_ID = 2;
 	
 	private EditText mTaskText;
 	private EditText mTaskNotes;
@@ -68,6 +68,8 @@ public class NTaskEdit extends CustomTab {
     
     private long[] collabIdLst;
     private boolean[] chosenCollabLst;
+    private HashSet<Long> checkedCollabs;
+    private HashSet<Long> newCollabs;
 
     private Long mTaskId;	
     private long webId = 0;
@@ -120,7 +122,8 @@ public class NTaskEdit extends CustomTab {
 		
 		genCatLst();
 		genPriLst();
-		genCollabLst();
+		checkedCollabs = new HashSet<Long>();
+		newCollabs = new HashSet<Long>();
 		
         mTaskId = (savedInstanceState != null) ? savedInstanceState.getLong(TbDbAdapter.KEY_TASK_LOCID) 
 				  : null;
@@ -169,9 +172,6 @@ public class NTaskEdit extends CustomTab {
     
     private void populateFields() {    	
         if (mTaskId != null) {
-        	            
-            mTaskCat.setClickable(false);
-            mTaskCat.setEnabled(false);
             
             Cursor task = tbDbHelper.fetchTask(mTaskId);
             startManagingCursor(task);
@@ -203,6 +203,13 @@ public class NTaskEdit extends CustomTab {
             	mTaskNotes.setText(voiceNoteResult);
             	voiceNoteResult = null;
             }
+
+            long collabCount = tbDbHelper.countCollaboratorsByCategory(catItem);
+            if (collabCount > 1){
+                mTaskCat.setClickable(false);                
+                mTaskCat.setEnabled(false);	
+            }
+
             category = tbDbHelper.fetchCategory(catItem).getString(0);
             mTaskCat.setText(category);
             updateDueButton();
@@ -280,9 +287,28 @@ public class NTaskEdit extends CustomTab {
 		mTaskPri.setOnItemSelectedListener(mPriListener);
 	}
     
+    private void populateCheckedCollabs(){
+    	if (mTaskId != null){
+        	Cursor checkedCollabLst = tbDbHelper.fetchCollabsByTask(mTaskId);
+        	startManagingCursor(checkedCollabLst);
+        	
+            if (checkedCollabLst.moveToFirst())  
+            {                         
+                for (int i = 0; i < checkedCollabLst.getCount(); i++)  
+                {  
+                	checkedCollabs.add(checkedCollabLst.getLong(0));
+                	checkedCollabLst.moveToNext();  
+                }             
+            }  
+            
+            checkedCollabLst.close();		
+    	}
+    }
+    
     private void genCollabLst()
     {
-    	if (catItem > 1)
+    	populateCheckedCollabs();
+    	if (catItem > 0)
     	{
         	// Creates an Array of category and their id for picker dialog
         	Cursor collabLst = tbDbHelper.fetchCollabsByCategory(catItem);
@@ -296,14 +322,22 @@ public class NTaskEdit extends CustomTab {
             {                         
                 for (int i = 0; i < collabLst.getCount(); i++)  
                 {  
-                    collabIdLst[i] = collabLst.getLong(0);
-                    chosenCollabLst[i] = false;
-                    collabNameLst[i] = tbDbHelper.fetchUserInfoById(collabIdLst[i]).getString(1);
+                	Long theCollab = collabLst.getLong(0);
+                    collabIdLst[i] = theCollab;
+                    chosenCollabLst[i] = (checkedCollabs.contains(theCollab))? true : false;
+                    collabNameLst[i] = tbDbHelper.fetchUserInfoById(theCollab).getString(1);
                     collabLst.moveToNext();  
                 }             
             }  
             
             collabLst.close();	
+    	}
+    }
+    
+    protected void updateNewCollabs()
+    {
+    	for (Long ncollabs: newCollabs){
+    		tbDbHelper.addUser2Task(mTaskId, ncollabs);
     	}
     }
     
@@ -334,14 +368,6 @@ public class NTaskEdit extends CustomTab {
             int mDay = c.get(Calendar.DAY_OF_MONTH);
         	dialog =  new DatePickerDialog(this, mDateSetListener, mYear, mMonth, mDay);
             break;
-        case DIALOG_COLLAB_ID:
-        	Cursor collbLst = tbDbHelper.fetchAllCategories();
-        	startManagingCursor(collbLst);
-        	builder = new AlertDialog.Builder(this);
-        	builder.setTitle("Pick Task Collaborators");
-        	builder.setMultiChoiceItems(collabNameLst, null, mCollabListner);
-        	dialog = builder.create();
-            break;
         default:
             dialog = null;
         }
@@ -360,9 +386,15 @@ public class NTaskEdit extends CustomTab {
             int mDay = c.get(Calendar.DAY_OF_MONTH);
         	((DatePickerDialog) dialog).updateDate(mYear, mMonth, mDay);
             break;
-        case DIALOG_COLLAB_ID:
-            break;
         }
+    }
+    
+    protected void createCollabDialog(){
+    	genCollabLst();
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Pick Task Collaborators");
+		builder.setMultiChoiceItems(collabNameLst, chosenCollabLst, mCollabListner);
+		builder.create().show();
     }
     
     private void startVoiceRecognitionTitle()
@@ -419,6 +451,7 @@ public class NTaskEdit extends CustomTab {
 	            		localSynced, localUptodate, localVersion);
 	            if (id > 0) {
 	                mTaskId = id;
+	                updateNewCollabs();
 	            }
 	        } else {
 	        	tbDbHelper.updateTaskImp(mTaskId, localTitle, localNotes,
@@ -479,9 +512,22 @@ public class NTaskEdit extends CustomTab {
     	new DialogInterface.OnMultiChoiceClickListener() {
 
 			@Override
-			public void onClick(DialogInterface dialog, int which,
+			public void onClick(DialogInterface dialog, int i,
 					boolean isChecked) {
-				Toast.makeText(getApplicationContext(), "Feature Coming Soon", Toast.LENGTH_SHORT).show();
+				Long userId = collabIdLst[i];
+				if (mTaskId != null){					
+					if (isChecked){
+						tbDbHelper.addUser2Task(mTaskId, userId);	
+					} else {
+						tbDbHelper.removeUserTask(mTaskId, userId);
+					}
+				} else {
+					if (isChecked){
+						newCollabs.add(userId);	
+					} else {
+						newCollabs.remove(userId);
+					}
+				}
 			}
 	};
 
@@ -524,8 +570,7 @@ public class NTaskEdit extends CustomTab {
     {
     	public void onClick(View v)
     	{
-    		Toast.makeText(getApplicationContext(), "Feature Coming Soon", Toast.LENGTH_SHORT).show();
-    		//showDialog(DIALOG_COLLAB_ID);
+    		createCollabDialog();
     	}
     };
     
