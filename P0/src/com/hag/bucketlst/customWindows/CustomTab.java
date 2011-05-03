@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.hag.bucketlst.activity.FakeUserAdd;
 public class CustomTab extends TabActivity {
 	protected TextView title;
 	protected ImageView icon;
+	protected LinearLayout buttonView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class CustomTab extends TabActivity {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
         //View view = getLayoutInflater().inflate(R.layout.window_title, null);
         title = (TextView) findViewById(R.id.title);
+        buttonView = (LinearLayout) findViewById(R.id.buttonView);
         
         ImageButton profile = (ImageButton) findViewById(R.id.myProfile);
         ImageButton search = (ImageButton) findViewById(R.id.search);

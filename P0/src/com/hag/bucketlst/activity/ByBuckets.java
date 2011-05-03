@@ -36,8 +36,8 @@ public class ByBuckets extends CustomWindow{
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
     
-    private static final int INSERT_ID = Menu.FIRST;
-    private static final int EDIT_ID = Menu.FIRST + 1;
+    private static final int INSERT_ID = Menu.FIRST + 1;
+    private static final int EDIT_ID = Menu.FIRST + 2;
     
     private Long mCatId;
     private EditText mTaskTitle;

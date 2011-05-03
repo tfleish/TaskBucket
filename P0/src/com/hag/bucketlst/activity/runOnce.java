@@ -31,6 +31,7 @@ public class runOnce extends CustomWindow {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.run_once);
 		this.title.setText("Welcome");
+		this.buttonView.setVisibility(View.INVISIBLE);
 		
 		mDbHelper = BLApp.getHelper();
 		mDbHelper.open();

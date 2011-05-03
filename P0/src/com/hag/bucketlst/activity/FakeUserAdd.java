@@ -25,6 +25,7 @@ public class FakeUserAdd extends CustomWindow {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fake_user);
 		this.title.setText("New Users");
+		this.buttonView.setVisibility(View.INVISIBLE);
 		
 		mDbHelper = BLApp.getHelper();
 		mDbHelper.open();

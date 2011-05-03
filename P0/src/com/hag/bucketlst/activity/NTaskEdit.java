@@ -93,6 +93,7 @@ public class NTaskEdit extends CustomTab {
         super.onCreate(savedInstanceState);
         //this.title.setText("task Info");
         setContentView(R.layout.ntedit);
+        this.buttonView.setVisibility(View.INVISIBLE);
         
         // initializes the view tabs
         TabHost mTabHost = getTabHost();

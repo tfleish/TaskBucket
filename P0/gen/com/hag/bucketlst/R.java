@@ -61,6 +61,7 @@ public final class R {
         public static final int addUser=0x7f060015;
         public static final int b1=0x7f06002e;
         public static final int b2=0x7f060009;
+        public static final int buttonView=0x7f060032;
         public static final int cat=0x7f060010;
         public static final int catAdd=0x7f06001e;
         public static final int catColDelete=0x7f060019;
@@ -84,14 +85,14 @@ public final class R {
         public static final int love=0x7f06000d;
         public static final int mainTaskAdd=0x7f060002;
         public static final int myNotes=0x7f06002a;
-        public static final int myProfile=0x7f060032;
+        public static final int myProfile=0x7f060033;
         public static final int myTasks=0x7f060000;
         public static final int newCategory=0x7f060023;
         public static final int newPri=0x7f060025;
         public static final int notesTab=0x7f060028;
         public static final int plusOne=0x7f060017;
         public static final int priColor=0x7f06000e;
-        public static final int search=0x7f060033;
+        public static final int search=0x7f060034;
         public static final int speakNow=0x7f06002d;
         public static final int speakNowNote=0x7f060029;
         public static final int speakNowTitle=0x7f060004;
@@ -104,7 +105,7 @@ public final class R {
         public static final int taskUnCheck=0x7f060016;
         public static final int taskViews=0x7f060005;
         public static final int text1=0x7f060007;
-        public static final int title=0x7f060034;
+        public static final int title=0x7f060035;
         public static final int titleGet=0x7f060022;
         public static final int topBar=0x7f060001;
         public static final int unameGet=0x7f060013;

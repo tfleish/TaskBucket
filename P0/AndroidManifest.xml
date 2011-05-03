@@ -3,7 +3,15 @@
       package="com.hag.bucketlst"
       android:versionCode="1"
       android:versionName="1.0">
-
+      
+	<uses-permission
+		android:name="android.permission.GET_ACCOUNTS"
+		>
+	</uses-permission>
+	<uses-permission
+		android:name="android.permission.INTERNET"
+		>
+	</uses-permission>
 
     <application 
     	android:icon="@drawable/icon" 
@@ -43,6 +51,10 @@
 		<activity android:name=".activity.FakeUserAdd" android:configChanges="orientation|keyboardHidden" 
 			android:windowSoftInputMode="adjustResize|stateHidden">
 		</activity>
+
+		<activity android:name=".activity.runOnce" android:configChanges="orientation|keyboardHidden" 
+			android:windowSoftInputMode="adjustResize|stateHidden">
+		</activity>							
 							
     </application>
 </manifest>
